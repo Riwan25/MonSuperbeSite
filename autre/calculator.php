@@ -104,6 +104,9 @@
                     <option value="divide" <?php echo (isset($_POST['operation']) && $_POST['operation'] == 'divide') ? 'selected' : ''; ?>>
                         Division (÷)
                     </option>
+                    <option value="modulo" <?php echo (isset($_POST['operation']) && $_POST['operation'] == 'modulo') ? 'selected' : ''; ?>>
+                        Modulo (%)
+                    </option>
                 </select>
             </div>
             
@@ -152,6 +155,15 @@
                         } else {
                             $result = $num1 / $num2;
                             $operationSymbol = '÷';
+                        }
+                        break;
+                    case 'modulo':
+                        if ($num2 == 0) {
+                            $error = true;
+                            $errorMessage = "Error: Modulo by zero is not allowed!";
+                        } else {
+                            $result = fmod($num1, $num2);
+                            $operationSymbol = '%';
                         }
                         break;
                     default:
