@@ -1,0 +1,293 @@
+/* ===========================
+   RESET LÉGER / BASE
+=========================== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --fg: #1f2937;
+  --muted: #6b7280;
+  --primary: #4f46e5;
+  --primary-2: #6366f1;
+  --focus: #7c3aed;
+  --ok: #28a745;
+  --ok-bg: #e8f5e9;
+  --err: #dc3545;
+  --err-bg: #fdecea;
+}
+
+html, body { height: 100%; }
+
+body {
+  font-family: "Inter", "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background: linear-gradient(180deg, #f6f8ff 0%, #eef2ff 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  color: var(--fg);
+  line-height: 1.45;
+}
+
+/* ===========================
+   LAYOUT
+=========================== */
+main {
+  width: 100%;
+  max-width: 920px;
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 30px;
+  align-items: start;
+}
+
+/* ===========================
+   FORMULAIRE (COLONNE GAUCHE)
+=========================== */
+form {
+  background: linear-gradient(180deg, #ffffffcc, #fbfdff);
+  padding: 28px;
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(16, 24, 40, 0.08);
+  border: 1px solid rgba(99,102,241,0.06);
+  margin-right: 20px;
+}
+
+form h1 {
+  font-size: 20px;
+  color: var(--primary);
+  margin-bottom: 18px;
+}
+
+/* Champs */
+.c100 { margin-bottom: 14px; display: flex; flex-direction: column; }
+
+label {
+  font-weight: 600;
+  font-size: 13px;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="tel"],
+input[type="date"],
+select,
+textarea {
+  padding: 12px 14px;
+  font-size: 15px;
+  border-radius: 10px;
+  border: 1px solid #e6e9f2;
+  background: #fff;
+  transition: box-shadow .18s ease, border-color .18s ease, transform .08s ease, background-color .18s ease;
+}
+
+textarea { min-height: 110px; resize: vertical; }
+
+/* Focus générique (sera surchargé par .input-valid / .input-error si présents) */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--focus);
+  box-shadow: 0 6px 20px rgba(124,58,237,0.12);
+  transform: translateY(-1px);
+}
+
+/* Messages d’aide / d’erreur près des champs */
+.help,
+.error-message {
+  font-size: 0.9em;
+  margin-top: 6px;
+}
+
+.help { color: #4b5563; }
+.error-message { color: var(--err); }
+
+/* Bouton Submit */
+#submit { display:flex; justify-content:flex-end; margin-top: 8px; }
+
+input[type="submit"],
+button[type="submit"] {
+  background: linear-gradient(90deg, #6d28d9, #8b5cf6);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(99,102,241,0.18);
+  transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+}
+
+input[type="submit"]:hover,
+button[type="submit"]:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(99,102,241,0.22);
+}
+
+input[type="submit"]:disabled,
+button[type="submit"]:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 6px 18px rgba(99,102,241,0.12);
+}
+
+/* ===========================
+   PANNEAU RÉSULTATS (COLONNE DROITE)
+=========================== */
+.result { align-self: start; }
+
+.result-header {
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin-bottom: 12px;
+}
+
+.result-header .icon { font-size: 28px; }
+
+.result h2 { font-size: 18px; color: #111827; }
+
+.card {
+  background: linear-gradient(180deg, #ffffff, #fbfdff);
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid rgba(99,102,241,0.06);
+  box-shadow: 0 10px 30px rgba(16,24,40,.06);
+}
+
+.row {
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 8px;
+  border-radius: 8px;
+  transition: background .12s ease;
+}
+
+.row + .row { margin-top: 8px; }
+
+.label {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.value {
+  font-weight: 700;
+  color: #111827;
+}
+
+/* ===========================
+   ÉTATS DE RÉSULTAT + ICONES
+=========================== */
+.result-header .icon::before {
+  font-family: Arial, sans-serif;
+  display: inline-block;
+  color: var(--primary);
+}
+
+.result.success .result-header .icon::before { content: "\2705"; }
+.result.success .result-header .icon      { filter: hue-rotate(60deg) saturate(120%); }
+
+.result.error .result-header .icon::before { content: "\274C"; }
+.result.error .result-header .icon         { filter: hue-rotate(-20deg) saturate(120%); }
+
+.result.error .card {
+  border-color: #fecaca;
+  background: linear-gradient(180deg,#fff7f7,#fffdfa);
+  box-shadow: 0 8px 22px rgba(220,38,38,0.06);
+}
+
+.result.error .card ul {
+  list-style: disc;
+  padding-left: 18px;
+  color: #7f1d1d;
+  font-weight: 600;
+}
+
+/* ===========================
+   VALID / ERROR INPUT STATES
+   (spécificité + focus préservé)
+=========================== */
+input.input-valid,
+select.input-valid,
+textarea.input-valid {
+  border: 2px solid var(--ok);
+  background-color: var(--ok-bg);
+}
+
+input.input-error,
+select.input-error,
+textarea.input-error {
+  border: 2px solid var(--err);
+  background-color: var(--err-bg);
+}
+
+/* Conserver la couleur au focus selon l'état */
+input.input-valid:focus,
+select.input-valid:focus,
+textarea.input-valid:focus {
+  border-color: var(--ok);
+  box-shadow: 0 6px 20px rgba(40,167,69,0.18);
+  transform: translateY(-1px);
+}
+
+input.input-error:focus,
+select.input-error:focus,
+textarea.input-error:focus {
+  border-color: var(--err);
+  box-shadow: 0 6px 20px rgba(220,53,69,0.18);
+  transform: translateY(-1px);
+}
+
+/* Icône d'état optionnelle à droite du champ */
+.field-with-status {
+  position: relative;
+}
+.field-with-status input,
+.field-with-status select,
+.field-with-status textarea {
+  padding-right: 42px; /* espace pour icône */
+}
+.field-with-status .status-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  translate: 0 -50%;
+  font-size: 18px;
+  pointer-events: none;
+}
+.field-with-status .status-icon.ok { color: var(--ok);  content: "✓"; }
+.field-with-status .status-icon.err { color: var(--err); content: "×"; }
+
+/* ===========================
+   UTILITAIRES
+=========================== */
+.hidden { display: none !important; }
+
+.visually-hidden {
+  position:absolute!important;
+  width:1px!important;
+  height:1px!important;
+  padding:0!important;
+  margin:-1px!important;
+  overflow:hidden!important;
+  clip:rect(0,0,0,0)!important;
+  white-space:nowrap!important;
+  border:0!important;
+}
+
+/* Espacement optionnel sous les champs quand message visible */
+.has-error .error-message { margin-top: 6px; }
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+@media (max-width: 920px) {
+  main { grid-template-columns: 1fr; }
+  .result { margin-top: 12px; }
+}

@@ -1,0 +1,12 @@
+CREATE DATABASE IF NOT EXISTS tp_crud_x75;
+USE tp_crud_x75;
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    firstname VARCHAR(50) NOT NULL,
+    lastname VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    gender ENUM('Homme','Femme') NOT NULL,
+    birthdate DATE NOT NULL,
+    age INT(3) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
