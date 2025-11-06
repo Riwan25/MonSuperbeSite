@@ -21,6 +21,8 @@ if (isset($_GET['id'])) {
         exit();
     }
 }
+
+$pageTitle = $isUpdate ? "Modifier un utilisateur" : "Ajouter un utilisateur";
 $submitButton = $isUpdate ? "updateUser" : "saveUser";
 $submitLabel = $isUpdate ? "Modifier l'utilisateur" : "Ajouter l'utilisateur";
 ?>
@@ -29,8 +31,9 @@ $submitLabel = $isUpdate ? "Modifier l'utilisateur" : "Ajouter l'utilisateur";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion des Utilisateurs - CRUD</title>
+    <title><?php echo $pageTitle; ?></title>
     <link rel="stylesheet" href="../style/style.css">
+    <link rel="script" href="../script/script.js">
 </head>
 <body>
     <div class="container">
