@@ -2,8 +2,8 @@
 require_once __DIR__ . "/../controller/userController.php";
 $result = getUsers();
 $message = '';
-if (isset($_GET['success'])) {
-    switch ($_GET['success']) {
+if (isset($_SESSION['success'])) {
+    switch ($_SESSION['success']) {
         case 'add':
             $message = '<div class="alert alert-success">Utilisateur ajouté avec succès!</div>';
             break;
@@ -14,7 +14,13 @@ if (isset($_GET['success'])) {
             $message = '<div class="alert alert-success">Utilisateur supprimé avec succès!</div>';
             break;
     }
+    unset($_SESSION['success']);
 }
+if (isset($_SESSION['error'])) {
+    $message .= '<div class="alert alert-error">' . htmlspecialchars($_SESSION['error']) . '</div>';
+    unset($_SESSION['error']);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">

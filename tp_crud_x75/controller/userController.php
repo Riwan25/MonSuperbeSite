@@ -22,14 +22,18 @@ if (isset($_POST['saveUser'])) {
        exit();
    }
    saveUser($user);
-   header("Location: ../view/index.php?success=add");
+   $_SESSION['success'] = 'add';
+   header("Location: ../view/index.php");
    exit();
 }
 
 if (isset($_GET['delete'])) {
    $idUser = intval($_GET['delete']);
-   deleteUser($idUser);
-   header("Location: ../view/index.php?success=delete");
+   if (!deleteUser($idUser)) {
+        $_SESSION['error'] = "Erreur: Lors de la suppression de l'utilisateur.";
+   }
+   $_SESSION['success'] = 'delete';
+   header("Location: ../view/index.php");
    exit();
 }
 
@@ -50,7 +54,8 @@ if (isset($_POST['updateUser'])) {
         'gender' => $gender,
     ];
     updateUser($user);
-    header("Location: ../view/index.php?success=update");
+    $_SESSION['success'] = 'update';
+    header("Location: ../view/index.php");
     exit();
 }
 
@@ -75,7 +80,7 @@ function saveUser($user){
 }
 
 function deleteUser($idUser){
-    deleteUserDAO($idUser);
+    return deleteUserDAO($idUser);
 }
 function updateUser($user){
     updateUserDAO($user);

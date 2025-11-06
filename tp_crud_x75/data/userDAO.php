@@ -61,21 +61,28 @@ function deleteUserDAO($idUser){
     $statement = $connection->prepare($query);
     if ($statement === false) {
         error_log("Erreur de préparation SQL: " . $connection->error);
-        exit();
+        return false;
     }
     $success = $statement->bind_param("i", $idUser);
     if ($success === false) {
         error_log("Erreur de liaison des paramètres: " . $statement->error);
         $statement->close();
         $connection->close();
-        exit();
+        return false;
     }
     $success = $statement->execute();
     if (!$success) {
         error_log("Erreur d'exécution SQL: " . $statement->error);
+        return false;
+    }
+    if ($statement->affected_rows > 0) {
+        $statement->close();
+        $connection->close();
+        return true;
     }
     $statement->close();
     $connection->close();
+    return true;
 }
 
 function updateUserDAO($user){
