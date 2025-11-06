@@ -1,11 +1,6 @@
 <?php
-require_once 'db_connect.php';
-$conn = get_connection();
-
-// Récupérer tous les utilisateurs avec la fonction de db_connect.php
-$result = get_all_users($conn);
-
-// Messages de feedback
+require_once __DIR__ . "/../controller/userController.php";
+$result = getUsers();
 $message = '';
 if (isset($_GET['success'])) {
     switch ($_GET['success']) {
@@ -27,13 +22,13 @@ if (isset($_GET['success'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des Utilisateurs - CRUD</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style/style.css">
 </head>
 <body>
     <div class="container">
         <header>
             <h1>Gestion des Utilisateurs</h1>
-            <a href="add_user.php" class="btn btn-primary">Ajouter un utilisateur</a>
+            <a href="userForm.php" class="btn btn-primary">Ajouter un utilisateur</a>
         </header>
 
         <?php echo $message; ?>
@@ -55,8 +50,8 @@ if (isset($_GET['success'])) {
                 </thead>
                 <tbody>
                     <?php
-                    if (mysqli_num_rows($result) > 0) {
-                        while ($row = mysqli_fetch_assoc($result)) {
+                    if (is_array($result) && count($result) > 0) {
+                        foreach ($result as $row) {
                             echo "<tr>";
                             echo "<td>" . htmlspecialchars($row['id']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['firstname']) . "</td>";
@@ -67,8 +62,8 @@ if (isset($_GET['success'])) {
                             echo "<td>" . htmlspecialchars($row['age']) . " ans</td>";
                             echo "<td>" . htmlspecialchars(date('d/m/Y H:i', strtotime($row['created_at']))) . "</td>";
                             echo "<td class='actions'>";
-                            echo "<a href='update_user.php?id=" . htmlspecialchars($row['id']) . "' class='btn btn-edit'>Modifier</a>";
-                            echo "<a href='delete_user.php?id=" . htmlspecialchars($row['id']) . "' class='btn btn-delete' onclick='return confirm(\"Êtes-vous sûr de vouloir supprimer cet utilisateur ?\");'>Supprimer</a>";
+                            echo "<a href='userForm.php?id=" . htmlspecialchars($row['id']) . "' class='btn btn-edit'>Modifier</a>";
+                            echo "<a href='../controller/userController.php?delete=" . htmlspecialchars($row['id']) . "' class='btn btn-delete' onclick='return confirm(\"Êtes-vous sûr de vouloir supprimer cet utilisateur ?\");'>Supprimer</a>";
                             echo "</td>";
                             echo "</tr>";
                         }
@@ -82,6 +77,3 @@ if (isset($_GET['success'])) {
     </div>
 </body>
 </html>
-<?php
-mysqli_close($conn);
-?>
