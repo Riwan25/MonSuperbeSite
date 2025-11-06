@@ -27,7 +27,7 @@ function saveUserDAO($user){
         
     if ($statement === false) {
         error_log("Erreur de préparation SQL: " . $connection->error);
-        exit();
+        return false;
     }
     
     $success = $statement->bind_param(
@@ -43,7 +43,7 @@ function saveUserDAO($user){
         error_log("Erreur de liaison des paramètres: " . $statement->error);
         $statement->close();
         $connection->close();
-        exit();
+        return false;
     }
     $success = $statement->execute();
     
@@ -53,6 +53,7 @@ function saveUserDAO($user){
     
     $statement->close();
     $connection->close();
+    return $success;
 }
 
 function deleteUserDAO($idUser){
@@ -94,7 +95,7 @@ function updateUserDAO($user){
     $statement = $connection->prepare($query);
     if ($statement === false) {
         error_log("Erreur de préparation SQL: " . $connection->error);
-        exit();
+        return false;
     }
     $success = $statement->bind_param(
         "sssssis",
@@ -110,7 +111,7 @@ function updateUserDAO($user){
         error_log("Erreur de liaison des paramètres: " . $statement->error);
         $statement->close();
         $connection->close();
-        exit();
+        return false;
     }
     $success = $statement->execute();
     if (!$success) {
@@ -118,6 +119,7 @@ function updateUserDAO($user){
     }
     $statement->close();
     $connection->close();
+    return $success;
 }
 
 ?>

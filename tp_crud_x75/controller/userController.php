@@ -21,7 +21,11 @@ if (isset($_POST['saveUser'])) {
        header("Location: ../view/userForm.php"); 
        exit();
    }
-   saveUser($user);
+   if (!saveUser($user)){
+        $_SESSION['error'] = "Erreur: Lors de l'ajout de l'utilisateur.";
+        header("Location: ../view/userForm.php"); 
+        exit();
+   };
    $_SESSION['success'] = 'add';
    header("Location: ../view/index.php");
    exit();
@@ -31,6 +35,8 @@ if (isset($_GET['delete'])) {
    $idUser = intval($_GET['delete']);
    if (!deleteUser($idUser)) {
         $_SESSION['error'] = "Erreur: Lors de la suppression de l'utilisateur.";
+        header("Location: ../view/index.php");
+        exit();
    }
    $_SESSION['success'] = 'delete';
    header("Location: ../view/index.php");
@@ -53,7 +59,11 @@ if (isset($_POST['updateUser'])) {
         'birthdate' => $birthdate,
         'gender' => $gender,
     ];
-    updateUser($user);
+    if (!updateUser($user)){
+        $_SESSION['error'] = "Erreur: Lors de la mise à jour de l'utilisateur.";
+        header("Location: ../view/index.php");
+        exit();
+    };
     $_SESSION['success'] = 'update';
     header("Location: ../view/index.php");
     exit();
@@ -76,13 +86,13 @@ function getUserById($id){
 }
 
 function saveUser($user){
-   saveUserDAO($user);
+   return saveUserDAO($user);
 }
 
 function deleteUser($idUser){
     return deleteUserDAO($idUser);
 }
 function updateUser($user){
-    updateUserDAO($user);
+    return updateUserDAO($user);
 }
 ?>
