@@ -1,34 +1,11 @@
 
 <?php
-require 'classes/Animal.php';
-
-$animaux = [
-    new Animal('Rex', 5, 'chien'),
-    new Animal('Miaou', 3, 'chat'),
-    new Animal('Bella', 7, 'chien'),
-    new Animal('Félix', 2, 'chat'),
-    new Animal('Max', 4, 'chien'),
-    new Animal('Whiskers', 6, 'chat')
-];
-
+require 'process.php';
+$animauxAffiches = getlistAnimeaux();
+$livresAffiches = getlistLivres();
 $type = isset($_GET['type']) ? $_GET['type'] : 'tous';
-
-$animauxAffiches = [];
-if ($type === 'chiens') {
-    foreach ($animaux as $animal) {
-        if ($animal->getType() === 'chien') {
-            $animauxAffiches[] = $animal;
-        }
-    }
-} elseif ($type === 'chats') {
-    foreach ($animaux as $animal) {
-        if ($animal->getType() === 'chat') {
-            $animauxAffiches[] = $animal;
-        }
-    }
-} else {
-    $animauxAffiches = $animaux;
-}
+$dateFilter = isset($_GET['date']) ? $_GET['date'] : null;
+$dates = getListDates();
 ?>
 
 <h1>Liste des Animaux </h1>
@@ -61,6 +38,40 @@ if (count($animauxAffiches) > 0) {
 } else {
     echo '<div class="no-results">Aucun animal trouvé pour ce filtre.</div>';
 }
+?>
+<h1>Liste des Livres </h1>
+<select id="dateFilter" onchange="window.location.href='?date=' + this.value">
+    <option value="" <?php echo ($dateFilter === null) ? 'selected' : ''; ?>>Tous les livres</option>
+    <?php
+        foreach ($dates as $date) {
+            $selected = ($dateFilter === $date) ? 'selected' : '';
+            echo '<option value="' . htmlspecialchars($date) . '" ' . $selected . '>' . htmlspecialchars($date) . '</option>';
+        }
+    ?>
+</select>
+
+<?php
+if ($dateFilter) {
+    echo '<div>Affichage : Livres publiés en ' . htmlspecialchars($dateFilter) . '</div>';
+} else {
+    echo '<div>Affichage : Tous les livres</div>';
+}
+
+if (count($livresAffiches) > 0) {
+    echo '<div>--------------------------------</div>';
+    foreach ($livresAffiches as $livre) {
+        echo '<div>';
+        echo '<div>' . ' ' . htmlspecialchars($livre->getNom()) . '</div>';
+        echo '<div>Edition : ' . htmlspecialchars($livre->getEdition()) . '</div>';
+        echo '<div>Auteur : ' . htmlspecialchars($livre->getAuteur()) . '</div>';
+        echo '<div>Date de publication : ' . htmlspecialchars($livre->getDate()) . '</div>';
+        echo '</div>';
+        echo '<div>--------------------------------</div>';
+    }
+} else {
+    echo '<div class="no-results">Aucun livre trouvé pour ce filtre.</div>';
+}
+
 ?>
 
 </body>
