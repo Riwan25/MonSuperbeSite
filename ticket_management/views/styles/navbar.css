@@ -1,0 +1,32 @@
+/* Navbar Styles */
+.navbar {
+    background-color: #0267C1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-title {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.navbar-icons {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.navbar-icon {
+    color: white;
+    font-size: 20px;
+}
+
+.navbar-icon:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}

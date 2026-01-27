@@ -1,0 +1,188 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background:
+    linear-gradient(rgba(100, 100, 100, 0.7), rgba(80, 80, 80, 0.7)),
+    url('images/pc-repair.webp') center/cover no-repeat fixed;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  max-width: 1200px;
+  width: 100%;
+}
+
+.auth-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  display: flex;
+  gap: 0;
+  width: fit-content;
+}
+
+.form-wrapper {
+  padding: 40px;
+  flex: 1;
+  min-width: 400px;
+  position: relative;
+}
+
+.form-wrapper#loginForm::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 10%;
+  height: 80%;
+  width: 1px;
+  background: #333;
+}
+
+.form-wrapper h1 {
+  color: #333;
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 28px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #555;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 12px;
+  background: lightgreen;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-submit:active {
+  transform: translateY(0);
+}
+
+.error {
+  background-color: #fee;
+  color: #c33;
+  padding: 12px;
+  border-radius: 5px;
+  margin-top: 15px;
+  border-left: 4px solid #c33;
+  font-size: 14px;
+}
+
+.success {
+  background-color: #efe;
+  color: #3c3;
+  padding: 12px;
+  border-radius: 5px;
+  margin-top: 15px;
+  border-left: 4px solid #3c3;
+  font-size: 14px;
+}
+
+.toggle-button {
+  display: none;
+  width: 100%;
+  padding: 12px;
+  background: white;
+  color: #667eea;
+  border: 2px solid #667eea;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: all 0.3s;
+}
+
+.toggle-button:hover {
+  background: #667eea;
+  color: white;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 900px) {
+  .auth-card {
+    flex-direction: column;
+  }
+
+  .form-wrapper#loginForm::after {
+    display: none;
+  }
+
+  .form-wrapper {
+    display: none;
+  }
+
+  .form-wrapper.active {
+    display: block;
+  }
+
+  .toggle-button {
+    display: block;
+  }
+}
+
+/* Animation for form switching */
+@media (max-width: 900px) {
+  .form-wrapper.active {
+    animation: fadeIn 0.3s ease-in;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

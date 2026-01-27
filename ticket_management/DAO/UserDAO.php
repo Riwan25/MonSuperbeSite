@@ -2,17 +2,17 @@
 require_once __DIR__ .'/../models/User.php';
 require_once __DIR__ .'/config/Database.php';
 class UserDAO {
-    public static function getUser(int $userId){
+    public static function getUser(string $email){
         $pdo = Database::getInstance();
         $query = "
-            SELECT u.id, u.email, u.leader_id, u.role_id, r.name AS role_name
+            SELECT u.id, u.email, u.leader_id, u.role_id, r.name AS role_name, u.password
             FROM users u
             JOIN roles r 
             ON u.role_id = r.id
-            WHERE u.id = :userId
+            WHERE u.email = :email
         ";
         $stmt = $pdo->prepare($query);
-        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -37,7 +37,7 @@ class UserDAO {
         $stmt->bindValue(':email', $user->getEmail(), PDO::PARAM_STR);
         $stmt->bindValue(':role_id', $user->getRoleId(), PDO::PARAM_STR);
         $stmt->bindValue(':leader_id', $user->getLeaderId(), PDO::PARAM_INT);
-        $stmt->bindValue(':password', $user->getPassword(), PDO::PARAM_STR); //TODO crypt password
+        $stmt->bindValue(':password', password_hash($user->getPassword(), PASSWORD_BCRYPT), PDO::PARAM_STR);
         return $stmt->execute();
     }
 
