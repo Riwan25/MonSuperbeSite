@@ -1,3 +1,8 @@
+<?php 
+require_once __DIR__ .'/../process/requireAuth.php';
+requireAuth();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

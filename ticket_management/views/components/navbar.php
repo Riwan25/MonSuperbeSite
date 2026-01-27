@@ -1,9 +1,17 @@
 <nav class="navbar">
     <h1 class="navbar-title">Ticket managment</h1>
     <div class="navbar-icons">
-        <i class="fa-solid fa-house navbar-icon"></i>
-        <i class="fa-solid fa-screwdriver-wrench navbar-icon"></i>
-        <i class="fa-solid fa-users navbar-icon"></i>
-        <i class="fa-solid fa-user navbar-icon"></i>
+        <a href="index.php" style="text-decoration: none; color: inherit;">
+            <i class="fa-solid fa-house navbar-icon"></i>
+        </a>
+        <?php if (isset($_SESSION['role_name']) && $_SESSION['role_name'] === 'Supervisor'): ?>
+            <i class="fa-solid fa-screwdriver-wrench navbar-icon"></i>
+        <?php endif; ?>
+        <?php if (isset($_SESSION['role_name']) && ($_SESSION['role_name'] === 'Supervisor' || $_SESSION['role_name'] === 'Team Leader')): ?>
+            <i class="fa-solid fa-users navbar-icon"></i>
+        <?php endif; ?>
+        <a href="account.php" style="text-decoration: none; color: inherit;">
+            <i class="fa-solid fa-user navbar-icon"></i>
+        </a>
     </div>
 </nav>

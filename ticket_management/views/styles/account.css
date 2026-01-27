@@ -1,0 +1,47 @@
+.account-card {
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 40px 60px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  min-width: 350px;
+}
+
+.account-info {
+  margin: 25px 0;
+}
+.account-info p {
+  margin: 15px 0;
+  font-size: 18px;
+  color: #555;
+}
+
+.account-info .label {
+  font-weight: bold;
+  color: #0267c1;
+}
+
+.role-badge {
+  background-color: lightgreen;
+  padding: 5px 15px;
+  border-radius: 15px;
+  font-weight: bold;
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.disconnect-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s;
+}
+
+.disconnect-btn:hover {
+  background-color: #c82333;
+}

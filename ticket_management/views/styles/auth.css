@@ -4,18 +4,6 @@
   box-sizing: border-box;
 }
 
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background:
-    linear-gradient(rgba(100, 100, 100, 0.7), rgba(80, 80, 80, 0.7)),
-    url('images/pc-repair.webp') center/cover no-repeat fixed;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-
 .auth-container {
   display: flex;
   justify-content: center;
