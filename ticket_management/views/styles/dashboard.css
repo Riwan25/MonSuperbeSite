@@ -1,0 +1,255 @@
+.tickets-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.tickets-header {
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 20px;
+  border-radius: 10px 10px 0 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.tickets-header h1 {
+  margin: 0;
+  color: #333;
+  font-size: 24px;
+}
+
+.tickets-list {
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.ticket-item {
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr 2fr 2fr;
+  gap: 15px;
+  padding: 15px 20px;
+  border-bottom: 1px solid #e0e0e0;
+  align-items: center;
+  transition: background-color 0.2s;
+}
+
+.ticket-item:hover {
+  background-color: #bdbdbd;
+  cursor: pointer;
+}
+
+.ticket-item:last-child {
+  border-bottom: none;
+}
+
+.ticket-header {
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr 2fr 2fr;
+  gap: 15px;
+  padding: 15px 20px;
+  background-color: #f8f9fa;
+  font-weight: bold;
+  color: #555;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.ticket-id {
+  font-weight: bold;
+  color: #007bff;
+}
+
+.ticket-description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.priority-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.priority-1 {
+  background-color: green;
+  color: white;
+}
+.priority-2 {
+  background-color: yellow;
+  color: black;
+}
+.priority-3 {
+  background-color: orange;
+  color: white;
+}
+.priority-4 {
+  background-color: red;
+  color: white;
+}
+
+.status-1 {
+  background-color: #6c757d;
+  color: white;
+}
+.status-2 {
+  background-color: #0dcaf0;
+  color: white;
+}
+.status-3 {
+  background-color: #198754;
+  color: white;
+}
+.status-4 {
+  background-color: #dc3545;
+  color: white;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.95);
+  margin-top: 2px;
+  border-radius: 10px;
+}
+
+.pagination a,
+.pagination span {
+  padding: 8px 12px;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #007bff;
+  background-color: white;
+  transition: all 0.2s;
+}
+
+.pagination a:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.pagination .current {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.pagination .disabled {
+  color: #6c757d;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.no-tickets {
+  padding: 40px;
+  text-align: center;
+  color: #6c757d;
+  font-size: 18px;
+}
+
+.ticket-date {
+  font-size: 12px;
+  color: #666;
+}
+
+.mobile-healper {
+  display: none;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .mobile-healper {
+    display: initial;
+  }
+
+  .tickets-container {
+    padding: 10px;
+  }
+
+  .tickets-header h1 {
+    font-size: 20px;
+  }
+
+  .ticket-header {
+    display: none;
+  }
+
+  .ticket-item {
+    display: grid;
+    grid-template-columns: auto 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 10px;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .ticket-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .ticket-id {
+    grid-column: 1;
+    grid-row: 1;
+    font-size: 14px;
+  }
+
+  .ticket-item > div:nth-child(2) {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .ticket-item > div:nth-child(3) {
+    grid-column: 3;
+    grid-row: 2;
+  }
+
+  .ticket-item > div:nth-child(4) {
+    grid-column: 2;
+    grid-row: 3;
+  }
+
+  .ticket-date {
+    grid-column: 3;
+    grid-row: 3;
+    text-align: left;
+  }
+
+  .mobile-label {
+    font-weight: bold;
+    color: #666;
+    font-size: 11px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+    padding: 15px;
+  }
+
+  .pagination a,
+  .pagination span {
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+}

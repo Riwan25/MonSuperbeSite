@@ -2,7 +2,6 @@
 session_start();
 
 require_once(__DIR__ . "/../controllers/UserController.php");
-require_once(__DIR__ . "/../DAO/UserDAO.php");
 require_once(__DIR__ . "/../models/User.php");
 
 // Protection contre fixation de session
@@ -41,6 +40,7 @@ if (!$user) {
 
 
 $_SESSION["email"]       = $user->getEmail();
+$_SESSION["user_id"]     = $user->getId();
 $_SESSION["role_name"]   = $user->getRoleName();
 $_SESSION["logged_in"]   = true;
 

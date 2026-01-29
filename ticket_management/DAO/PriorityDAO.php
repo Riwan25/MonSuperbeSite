@@ -1,12 +1,12 @@
 <?php
-require_once __DIR__ .'/../models/DeviceType.php';
+require_once __DIR__ .'/../models/Priority.php';
 require_once __DIR__ .'/config/Database.php';
-class DeviceTypeDAO {
-    public static function getDeviceTypes(){
+class PriorityDAO {
+    public static function getPriorities(){
         $pdo = Database::getInstance();
         $query = "
-            SELECT dt.id, dt.name
-            FROM device_types dt 
+            SELECT p.id, p.name, p.value
+            FROM priorities p
         ";
         $stmt = $pdo->prepare($query);
         $stmt->execute();
