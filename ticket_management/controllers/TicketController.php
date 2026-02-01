@@ -33,8 +33,8 @@ class TicketController {
                 $ticket['client_id'],
                 $ticket['assigned_to'],
                 $ticket['id'],
-                $ticket['created_at'],
-                $ticket['updated_at']
+                new DateTime($ticket['created_at']),
+                new DateTime($ticket['updated_at'])
             );
         }
         return $tickets;

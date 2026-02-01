@@ -4,6 +4,10 @@
   padding: 20px;
 }
 
+.tickets-container-wide {
+  max-width: 1400px;
+}
+
 .tickets-header {
   background-color: rgba(255, 255, 255, 0.95);
   padding: 20px;
@@ -34,6 +38,10 @@
   transition: background-color 0.2s;
 }
 
+.ticket-item-leader {
+  grid-template-columns: 1fr 2fr 2fr 2fr 2fr 3fr;
+}
+
 .ticket-item:hover {
   background-color: #bdbdbd;
   cursor: pointer;
@@ -54,9 +62,13 @@
   border-bottom: 2px solid #dee2e6;
 }
 
+.ticket-header-leader {
+  grid-template-columns: 1fr 2fr 2fr 2fr 2fr 3fr;
+}
+
 .ticket-id {
   font-weight: bold;
-  color: #007bff;
+  color: #0267C1;
 }
 
 .ticket-description {
@@ -65,15 +77,15 @@
   white-space: nowrap;
 }
 
-.status-badge {
-  display: inline-block;
-  padding: 5px 10px;
-  border-radius: 15px;
-  font-size: 12px;
-  font-weight: bold;
-  text-align: center;
+.ticket-assigned {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
 }
 
+.email-badge,
+.status-badge,
 .priority-badge {
   display: inline-block;
   padding: 5px 10px;
@@ -81,6 +93,8 @@
   font-size: 12px;
   font-weight: bold;
   text-align: center;
+  background-color: #0267C1;
+  color: white;
 }
 
 .priority-1 {
@@ -182,27 +196,32 @@
     padding: 10px;
   }
 
+  .tickets-container-wide {
+    max-width: 100%;
+  }
+
   .tickets-header h1 {
     font-size: 20px;
   }
 
-  .ticket-header {
+  .ticket-header,
+  .ticket-header-leader {
     display: none;
   }
 
-  .ticket-item {
+  .ticket-item,
+  .ticket-item-leader {
     display: grid;
     grid-template-columns: auto 1fr 1fr;
-    grid-template-rows: auto auto auto;
+    grid-template-rows: auto auto auto auto;
     gap: 10px;
     padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 10px;
     background-color: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
-  .ticket-item:hover {
+  .ticket-item:hover,
+  .ticket-item-leader:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   }
 
@@ -227,10 +246,17 @@
     grid-row: 3;
   }
 
-  .ticket-date {
+  .ticket-item .ticket-date {
     grid-column: 3;
     grid-row: 3;
     text-align: left;
+  }
+
+  /* Team leader specific mobile layout */
+  .ticket-item-leader .ticket-assigned {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    text-align: center;
   }
 
   .mobile-label {

@@ -5,13 +5,22 @@ require_once(__DIR__ . "/../models/Ticket.php");
 require_once(__DIR__ . "/../controllers/DeviceTypeController.php");
 require_once(__DIR__ . "/../controllers/PriorityController.php");
 require_once(__DIR__ . "/../controllers/StatusController.php");
+require_once(__DIR__ . "/../controllers/UserController.php");
+
+// Detect which page is calling this script
+$isTeamLeaderPage = isset($isTeamLeaderView) && $isTeamLeaderView === true;
 
 // Pagination settings
 $itemsPerPage = 20;
 $currentPage = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 
-// Get all tickets
-$allTickets = TicketController::getTicketAssigned($_SESSION['user_id']);
+// Get all tickets based on the page
+$allTickets = [];
+if ($isTeamLeaderPage) {
+    $allTickets = TicketController::getTicketsByLeaderId($_SESSION['user_id']);
+} else {
+    $allTickets = TicketController::getTicketAssigned($_SESSION['user_id']);
+}
 $totalTickets = count($allTickets);
 $totalPages = ceil($totalTickets / $itemsPerPage);
 
@@ -49,6 +58,21 @@ function getStatusName($statusId) {
     foreach ($statuses as $status) {
         if ($status->getId() == $statusId) {
             return $status->getName();
+        }
+    }
+    return "Unknown";
+}
+
+// Get all users for team leader view (to display assigned user email)
+$users = UserController::getUsers();
+function getUserEmail($userId) {
+    global $users;
+    if ($userId === null) {
+        return "Unassigned";
+    }
+    foreach ($users as $user) {
+        if ($user->getId() == $userId) {
+            return $user->getEmail();
         }
     }
     return "Unknown";
