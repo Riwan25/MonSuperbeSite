@@ -42,6 +42,7 @@ function getPriorityName($priorityId) {
     return "Unknown";
 }
 
+// TODO mettre les function comme ca dans  un utlis ou qqh comme ca 
 function getPriorityValue($priorityId) {
     global $priorities;
     foreach ($priorities as $priority) {
