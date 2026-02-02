@@ -51,3 +51,65 @@ body {
   font-weight: bold;
   color: #333;
 }
+
+.email-badge,
+.status-badge,
+.priority-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  background-color: #0267C1;
+  color: white;
+}
+
+.priority-1 {
+  background-color: green;
+  color: white;
+}
+.priority-2 {
+  background-color: yellow;
+  color: black;
+}
+.priority-3 {
+  background-color: orange;
+  color: white;
+}
+.priority-4 {
+  background-color: red;
+  color: white;
+}
+
+.priority-badge,
+.status-badge {
+  width: fit-content;
+}
+
+.status-1 {
+  background-color: #6c757d;
+  color: white;
+}
+.status-2 {
+  background-color: #0dcaf0;
+  color: white;
+}
+.status-3 {
+  background-color: #198754;
+  color: white;
+}
+.status-4 {
+  background-color: #dc3545;
+  color: white;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  margin-top: 2px;
+  border-radius: 10px;
+}

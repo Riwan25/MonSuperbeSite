@@ -31,7 +31,7 @@ require_once __DIR__ .'/../process/processDashboard.php';
                 </div>
 
                 <?php foreach ($tickets as $ticket): ?>
-                    <div class="ticket-item">
+                    <div class="ticket-item" onclick="window.location.href='ticket.php?id=<?php echo $ticket->getId(); ?>'">
                         <div class="ticket-id">
                             #<?php echo $ticket->getId(); ?>
                         </div>
