@@ -39,4 +39,22 @@ class TicketController {
         }
         return $tickets;
     }
+
+    public static function getTicketById(int $ticketId){
+        $data =  TicketDAO::getTicketById($ticketId);
+        if ($data) {
+            return new Ticket(
+                $data['device_id'],
+                $data['ticket_status_id'],
+                $data['priority_id'],
+                $data['description'],
+                $data['client_id'],
+                $data['assigned_to'],
+                $data['id'],
+                new DateTime($data['created_at']),
+                new DateTime($data['updated_at'])
+            );
+        }
+        return null;
+    }
 }

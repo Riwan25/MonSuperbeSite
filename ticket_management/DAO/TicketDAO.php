@@ -31,4 +31,17 @@ class TicketDAO {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public static function getTicketById(int $ticketId) {
+        $pdo = Database::getInstance();
+        $query = "
+            SELECT t.id, t.device_id, t.ticket_status_id, t.priority_id, t.description, t.assigned_to, t.client_id, t.created_at, t.updated_at 
+            FROM tickets t 
+            WHERE t.id = :id
+        ";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':id', $ticketId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
