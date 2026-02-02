@@ -4,7 +4,7 @@
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   text-align: center;
-  min-width: 350px;
+  min-width: 300px;
 }
 
 .account-info {
@@ -44,4 +44,11 @@
 
 .disconnect-btn:hover {
   background-color: #c82333;
+}
+
+
+@media (max-width: 500px) {
+  .account-card {
+    min-width: 150px;
+  }
 }
