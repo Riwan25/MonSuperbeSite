@@ -11,7 +11,7 @@ require_once(__DIR__ . "/../controllers/UserController.php");
 $isTeamLeaderPage = isset($isTeamLeaderView) && $isTeamLeaderView === true;
 
 // Pagination settings
-$itemsPerPage = 20;
+$itemsPerPage = 10;
 $currentPage = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 
 // Get all tickets based on the page
