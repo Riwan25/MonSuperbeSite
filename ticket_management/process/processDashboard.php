@@ -7,6 +7,55 @@ require_once(__DIR__ . "/../controllers/PriorityController.php");
 require_once(__DIR__ . "/../controllers/StatusController.php");
 require_once(__DIR__ . "/../controllers/UserController.php");
 
+$deviceTypes = DeviceTypeController::getDeviceTypes();
+
+
+$priorities = PriorityController::getPriorities();
+
+
+$statuses = StatusController::getStatuses();
+
+function getPriorityName($priorityId) {
+    global $priorities;
+    foreach ($priorities as $priority) {
+        if ($priority->getId() == $priorityId) {
+            return $priority->getName();
+        }
+    }
+    return "Unknown";
+}
+
+function getPriorityValue($priorityId) {
+    global $priorities;
+    foreach ($priorities as $priority) {
+        if ($priority->getId() == $priorityId) {
+            return $priority->getValue();
+        }
+    }
+    return 0;
+}
+
+function getDeviceTypeName($deviceTypeId) {
+    global $deviceTypes;
+    foreach ($deviceTypes as $type) {
+        if ($type->getId() == $deviceTypeId) {
+            return $type->getName();
+        }
+    }
+    return "Unknown";
+}
+
+function getStatusName($statusId) {
+    global $statuses;
+    foreach ($statuses as $status) {
+        if ($status->getId() == $statusId) {
+            return $status->getName();
+        }
+    }
+    return "Unknown";
+}
+
+
 // Detect which page is calling this script
 $isTeamLeaderPage = isset($isTeamLeaderView) && $isTeamLeaderView === true;
 
@@ -30,38 +79,17 @@ $offset = ($currentPage - 1) * $itemsPerPage;
 // Get tickets for current page
 $tickets = array_slice($allTickets, $offset, $itemsPerPage);
 
-$deviceTypes = DeviceTypeController::getDeviceTypes();
-function getDeviceTypeName($deviceTypeId) {
-    global $deviceTypes;
-    foreach ($deviceTypes as $type) {
-        if ($type->getId() == $deviceTypeId) {
-            return $type->getName();
-        }
-    }
-    return "Unknown";
-}
+// Sort tickets by priority value
+usort($tickets, function ($a, $b) {
+    $priorityA = getPriorityValue($a->getPriorityId());
+    $priorityB = getPriorityValue($b->getPriorityId());
 
-$priorities = PriorityController::getPriorities();
-function getPriorityName($priorityId) {
-    global $priorities;
-    foreach ($priorities as $priority) {
-        if ($priority->getId() == $priorityId) {
-            return $priority->getName();
-        }
-    }
-    return "Unknown";
-}
+    return $priorityB <=> $priorityA; // descending order
+});
 
-$statuses = StatusController::getStatuses();
-function getStatusName($statusId) {
-    global $statuses;
-    foreach ($statuses as $status) {
-        if ($status->getId() == $statusId) {
-            return $status->getName();
-        }
-    }
-    return "Unknown";
-}
+
+
+
 
 // Get all users for team leader view (to display assigned user email)
 $users = UserController::getUsers();
