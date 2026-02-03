@@ -67,7 +67,7 @@ require_once __DIR__ .'/../process/processTicket.php';
                     <div class="ticket-info-item">
                         <span class="ticket-info-label">Device</span>
                         <span class="ticket-info-value">
-                            <?php echo getDeviceTypeName($device->getDeviceTypeId()) ?>:<?php echo htmlspecialchars($device->getExternalUid()); ?>
+                            <?php echo getDeviceTypeName($device->getDeviceTypeId()) ?>: <?php echo htmlspecialchars($device->getExternalUid()); ?>
                         </span>
                     </div>
                     <div class="ticket-info-item">
