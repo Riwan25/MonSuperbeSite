@@ -38,7 +38,7 @@ if (!$user) {
     exit;
 }
 
-
+$_SESSION['login_error'] = null;
 $_SESSION["email"]       = $user->getEmail();
 $_SESSION["user_id"]     = $user->getId();
 $_SESSION["role_name"]   = $user->getRoleName();
