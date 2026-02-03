@@ -2,6 +2,10 @@
 
 require_once __DIR__ . '/../DAO/CommentDAO.php';
 class CommentController {
+    public static function create(int $ticketId, int $userId, string $content): bool {
+        return CommentDAO::create($ticketId, $userId, $content);
+    }
+
     public static function getCommentsByTicketId(int $ticketId){
         $data =  CommentDAO::getCommentsByTicketId($ticketId);
         $comments = [];

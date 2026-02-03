@@ -59,4 +59,102 @@ class TicketController {
         }
         return null;
     }
+
+    public static function updateStatus(int $ticketId, int $statusId): bool {
+        return TicketDAO::updateStatus($ticketId, $statusId);
+    }
+
+    public static function getTicketsToAssign(){
+        $data = TicketDAO::getTicketsToAssign();
+        $tickets = [];
+        foreach($data as $ticket){
+            $tickets[] = new Ticket(
+                $ticket['device_id'],
+                $ticket['ticket_status_id'],
+                $ticket['priority_id'],
+                $ticket['description'],
+                $ticket['client_id'],
+                $ticket['assigned_to'],
+                $ticket['id'],
+                new DateTime($ticket['created_at']),
+                new DateTime($ticket['updated_at'])
+            );
+        }
+        return $tickets;
+    }
+
+    public static function getTicketsPending(){
+        $data = TicketDAO::getTicketsPending();
+        $tickets = [];
+        foreach($data as $ticket){
+            $tickets[] = new Ticket(
+                $ticket['device_id'],
+                $ticket['ticket_status_id'],
+                $ticket['priority_id'],
+                $ticket['description'],
+                $ticket['client_id'],
+                $ticket['assigned_to'],
+                $ticket['id'],
+                new DateTime($ticket['created_at']),
+                new DateTime($ticket['updated_at']),
+                $ticket['email']
+            );
+        }
+        return $tickets;
+    }
+
+    public static function getTicketsClosed(){
+        $data = TicketDAO::getTicketsClosed();
+        $tickets = [];
+        foreach($data as $ticket){
+            $tickets[] = new Ticket(
+                $ticket['device_id'],
+                $ticket['ticket_status_id'],
+                $ticket['priority_id'],
+                $ticket['description'],
+                $ticket['client_id'],
+                $ticket['assigned_to'],
+                $ticket['id'],
+                new DateTime($ticket['created_at']),
+                new DateTime($ticket['updated_at'])
+            );
+        }
+        return $tickets;
+    }
+
+    public static function assignTicket(int $ticketId, int $userId): bool {
+        return TicketDAO::assignTicket($ticketId, $userId);
+    }
+
+    public static function createTicket(int $deviceId, int $priorityId, string $description, int $clientId, ?int $assignedTo = null): int|false {
+        return TicketDAO::createTicket($deviceId, $priorityId, $description, $clientId, $assignedTo);
+    }
+
+    public static function getAllTickets(): array {
+        $data = TicketDAO::getAllTickets();
+        $tickets = [];
+        foreach ($data as $ticket) {
+            $tickets[] = new Ticket(
+                $ticket['device_id'],
+                $ticket['ticket_status_id'],
+                $ticket['priority_id'],
+                $ticket['description'],
+                $ticket['client_id'],
+                $ticket['assigned_to'],
+                $ticket['id'],
+                new DateTime($ticket['created_at']),
+                new DateTime($ticket['updated_at']),
+                $ticket['email']
+            );
+        }
+        return $tickets;
+    }
+
+    public static function deleteTicket(int $ticketId): bool {
+        return TicketDAO::deleteTicket($ticketId);
+    }
+
+    public static function updateTicket(int $ticketId, int $deviceId, int $priorityId, string $description, int $clientId): bool {
+        return TicketDAO::updateTicket($ticketId, $deviceId, $priorityId, $description, $clientId);
+    }
 }

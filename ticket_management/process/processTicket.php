@@ -2,6 +2,7 @@
 
 require_once(__DIR__ . "/../controllers/TicketController.php");
 require_once(__DIR__ . "/../controllers/CommentController.php");
+require_once(__DIR__ . "/../controllers/DeviceController.php");
 require_once(__DIR__ . "/utils.php");
 
 // Get ticket ID from URL
@@ -15,6 +16,8 @@ if ($ticketId <= 0) {
 // Get ticket by ID
 $ticket = TicketController::getTicketById($ticketId);
 
+$device = DeviceController::getDevice($ticket->getDeviceId());
+
 if (!$ticket) {
     header("Location: index.php");
     exit;
@@ -22,4 +25,5 @@ if (!$ticket) {
 
 // Get comments for this ticket
 $comments = CommentController::getCommentsByTicketId($ticketId);
+
 

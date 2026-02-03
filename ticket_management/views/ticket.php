@@ -21,6 +21,14 @@ require_once __DIR__ .'/../process/processTicket.php';
         <div class="ticket-card">
             <div class="ticket-card-header">
                 <h2>Ticket #<?php echo $ticket->getId(); ?></h2>
+                <?php if (isset($_SESSION['role_name']) && $_SESSION['role_name'] === 'Supervisor'): ?>
+                    <div class="header-actions">
+                        <a href="updateTicket.php?id=<?php echo $ticket->getId(); ?>" class="header-btn btn-update">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            Update Ticket
+                        </a>
+                    </div>
+                <?php endif; ?>
             </div>
             <div class="ticket-card-body">
                 <div class="ticket-info-grid">
@@ -37,8 +45,10 @@ require_once __DIR__ .'/../process/processTicket.php';
                         </span>
                     </div>
                     <div class="ticket-info-item">
-                        <span class="ticket-info-label">Device Type</span>
-                        <span class="ticket-info-value"><?php echo getDeviceTypeName($ticket->getDeviceId()); ?></span>
+                        <span class="ticket-info-label">Device</span>
+                        <span class="ticket-info-value">
+                            <?php echo getDeviceTypeName($device->getDeviceTypeId()) ?>:<?php echo htmlspecialchars($device->getExternalUid()); ?>
+                        </span>
                     </div>
                     <div class="ticket-info-item">
                         <span class="ticket-info-label">Assigned To</span>
@@ -89,7 +99,7 @@ require_once __DIR__ .'/../process/processTicket.php';
         </div>
 
         <div class="ticket-actions">
-            <button class="btn-intervention">Add Intervention</button>
+            <a href="intervention.php?ticket_id=<?php echo $ticket->getId(); ?>" class="btn-intervention">Add Intervention</a>
         </div>
     </div>
     

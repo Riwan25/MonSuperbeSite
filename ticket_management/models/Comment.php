@@ -2,7 +2,7 @@
 class Comment {
     private ?int $id;
     private int $userId;
-    private int $content;
+    private string $content;
     private ?DateTime $createdAt;
     private ?string $userEmail;
 

@@ -2,6 +2,19 @@
 require_once __DIR__ .'/../models/Comment.php';
 require_once __DIR__ .'/config/Database.php';
 class CommentDAO {
+    public static function create(int $ticketId, int $userId, string $content): bool {
+        $pdo = Database::getInstance();
+        $query = "
+            INSERT INTO comments (ticket_id, user_id, content) 
+            VALUES (:ticket_id, :user_id, :content)
+        ";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindValue(':ticket_id', $ticketId, PDO::PARAM_INT);
+        $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':content', $content, PDO::PARAM_STR);
+        return $stmt->execute();
+    }
+
     public static function getCommentsByTicketId(string $ticketId) {
         $pdo = Database::getInstance();
         $query = "
