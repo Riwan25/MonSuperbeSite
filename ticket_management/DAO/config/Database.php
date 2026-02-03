@@ -1,7 +1,7 @@
 <?php
 class Database {
     private const string HOST = 'localhost';
-    private const string DBNAME = 'tickets_management';
+    private const string DBNAME = 't-management';
     private const string USER = 'root';
     private const string PASS = 'root';
     private static ?PDO $pdo = null;

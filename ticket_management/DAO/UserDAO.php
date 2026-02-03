@@ -5,7 +5,7 @@ class UserDAO {
     public static function getUser(string $email){
         $pdo = Database::getInstance();
         $query = "
-            SELECT u.id, u.email, u.leader_id, u.role_id, r.name AS role_name, u.password
+            SELECT u.id, u.email, u.leader_id, u.role_id, r.name AS role_name, u.password, u.nb_tickets_closed
             FROM users u
             JOIN roles r 
             ON u.role_id = r.id
@@ -20,7 +20,7 @@ class UserDAO {
     public static function getUsers() {
         $pdo = Database::getInstance();
         $query = "
-            SELECT u.id, u.email, u.leader_id, r.id AS role_id, r.name AS role_name
+            SELECT u.id, u.email, u.leader_id, r.id AS role_id, r.name AS role_name, u.nb_tickets_closed
             FROM users u
             JOIN roles r 
             ON u.role_id = r.id
@@ -52,7 +52,7 @@ class UserDAO {
     public static function getUserById(int $userId) {
         $pdo = Database::getInstance();
         $query = "
-            SELECT u.id, u.email, u.leader_id, u.role_id, r.name AS role_name, u.password
+            SELECT u.id, u.email, u.leader_id, u.role_id, r.name AS role_name, u.password, u.nb_tickets_closed
             FROM users u
             JOIN roles r 
             ON u.role_id = r.id
@@ -87,7 +87,7 @@ class UserDAO {
     public static function getTeamLeaders() {
         $pdo = Database::getInstance();
         $query = "
-            SELECT u.id, u.email, u.leader_id, u.role_id, r.name AS role_name
+            SELECT u.id, u.email, u.leader_id, u.role_id, r.name AS role_name, u.nb_tickets_closed
             FROM users u
             JOIN roles r ON u.role_id = r.id
             WHERE r.name = 'team_leader' OR r.name = 'supervisor'
@@ -103,6 +103,41 @@ class UserDAO {
         $query = "UPDATE users SET leader_id = :leader_id WHERE id = :userId";
         $stmt = $pdo->prepare($query);
         $stmt->bindValue(':leader_id', $leaderId, PDO::PARAM_INT);
+        $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
+    public static function incrementTicketsClosed(int $userId) {
+        $pdo = Database::getInstance();
+        $query = "UPDATE users SET nb_tickets_closed = nb_tickets_closed + 1 WHERE id = :userId";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        // Get updated count and check for promotion
+        $user = self::getUserById($userId);
+        if ($user) {
+            $nbClosed = $user['nb_tickets_closed'];
+            $currentRoleId = $user['role_id'];
+            
+            // Promote to Supervisor (id 3) if more than 30 tickets closed
+            if ($nbClosed > 30 && $currentRoleId < 3) {
+                self::updateUserRole($userId, 3);
+            }
+            // Promote to Team Leader (id 2) if more than 10 tickets closed
+            elseif ($nbClosed > 10 && $currentRoleId < 2) {
+                self::updateUserRole($userId, 2);
+            }
+        }
+        
+        return true;
+    }
+
+    public static function updateUserRole(int $userId, int $roleId) {
+        $pdo = Database::getInstance();
+        $query = "UPDATE users SET role_id = :role_id WHERE id = :userId";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindValue(':role_id', $roleId, PDO::PARAM_INT);
         $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
         return $stmt->execute();
     }

@@ -16,11 +16,6 @@ require_once __DIR__ . '/../process/processIntervention.php';
     <?php include 'components/navbar.php'; ?>
 
     <div class="tickets-container">
-        <!-- Back to Ticket Link -->
-        <div class="back-link">
-            <a href="ticket.php?id=<?php echo $ticket->getId(); ?>">&larr; Back to Ticket #<?php echo $ticket->getId(); ?></a>
-        </div>
-
         <!-- Intervention Form Card -->
         <div class="ticket-card">
             <div class="ticket-card-header">

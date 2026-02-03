@@ -5,8 +5,9 @@ class TicketDAO {
     public static function getTicketsAssigned(string $userId) {
         $pdo = Database::getInstance();
         $query = "
-            SELECT t.id, t.device_id, t.ticket_status_id, t.priority_id, t.description, t.assigned_to, t.client_id, t.created_at, t.updated_at 
+            SELECT t.id, t.device_id, t.ticket_status_id, t.priority_id, t.description, t.assigned_to, t.client_id, t.created_at, t.updated_at, d.device_type_id 
             FROM tickets t 
+            LEFT JOIN devices d ON t.device_id = d.id
             WHERE t.assigned_to = :id
         ";
         $stmt = $pdo->prepare($query);
@@ -18,12 +19,13 @@ class TicketDAO {
     public static function getTicketsByLeaderId(int $leaderId) {
         $pdo = Database::getInstance();
         $query = "
-            SELECT t.id, t.device_id, t.ticket_status_id, t.priority_id, t.description, t.assigned_to, t.client_id, t.created_at, t.updated_at, u.email 
+            SELECT t.id, t.device_id, t.ticket_status_id, t.priority_id, t.description, t.assigned_to, t.client_id, t.created_at, t.updated_at, u.email, d.device_type_id 
             FROM tickets t 
             JOIN users u 
             ON t.assigned_to = u.id
             JOIN users leader
             ON u.leader_id = leader.id
+            LEFT JOIN devices d ON t.device_id = d.id
             WHERE leader.id = :id
         ";
         $stmt = $pdo->prepare($query);
@@ -35,10 +37,11 @@ class TicketDAO {
     public static function getTicketById(int $ticketId) {
         $pdo = Database::getInstance();
         $query = "
-            SELECT t.id, t.device_id, t.ticket_status_id, t.priority_id, t.description, t.assigned_to, t.client_id, t.created_at, t.updated_at, u.email 
+            SELECT t.id, t.device_id, t.ticket_status_id, t.priority_id, t.description, t.assigned_to, t.client_id, t.created_at, t.updated_at, u.email, d.device_type_id 
             FROM tickets t 
             LEFT JOIN users u 
             ON t.assigned_to = u.id
+            LEFT JOIN devices d ON t.device_id = d.id
             WHERE t.id = :id
         ";
         $stmt = $pdo->prepare($query);
@@ -76,8 +79,9 @@ class TicketDAO {
         $pdo = Database::getInstance();
         // Status 1 = 'To assign', Status 2 = 'To re assign'
         $query = "
-            SELECT t.id, t.device_id, t.ticket_status_id, t.priority_id, t.description, t.assigned_to, t.client_id, t.created_at, t.updated_at 
+            SELECT t.id, t.device_id, t.ticket_status_id, t.priority_id, t.description, t.assigned_to, t.client_id, t.created_at, t.updated_at, d.device_type_id 
             FROM tickets t 
+            LEFT JOIN devices d ON t.device_id = d.id
             WHERE t.ticket_status_id IN (1, 2)
         ";
         $stmt = $pdo->prepare($query);
@@ -89,9 +93,10 @@ class TicketDAO {
         $pdo = Database::getInstance();
         // Status 3 = 'Pending', Status 4 = 'Resolved'
         $query = "
-            SELECT t.id, t.device_id, t.ticket_status_id, t.priority_id, t.description, t.assigned_to, t.client_id, t.created_at, t.updated_at, u.email 
+            SELECT t.id, t.device_id, t.ticket_status_id, t.priority_id, t.description, t.assigned_to, t.client_id, t.created_at, t.updated_at, u.email, d.device_type_id 
             FROM tickets t 
             LEFT JOIN users u ON t.assigned_to = u.id
+            LEFT JOIN devices d ON t.device_id = d.id
             WHERE t.ticket_status_id IN (3, 4)
         ";
         $stmt = $pdo->prepare($query);
@@ -103,8 +108,9 @@ class TicketDAO {
         $pdo = Database::getInstance();
         // Status 5 = 'Closed'
         $query = "
-            SELECT t.id, t.device_id, t.ticket_status_id, t.priority_id, t.description, t.assigned_to, t.client_id, t.created_at, t.updated_at 
+            SELECT t.id, t.device_id, t.ticket_status_id, t.priority_id, t.description, t.assigned_to, t.client_id, t.created_at, t.updated_at, d.device_type_id 
             FROM tickets t 
+            LEFT JOIN devices d ON t.device_id = d.id
             WHERE t.ticket_status_id = 5
         ";
         $stmt = $pdo->prepare($query);
@@ -152,9 +158,10 @@ class TicketDAO {
     public static function getAllTickets(): array {
         $pdo = Database::getInstance();
         $query = "
-            SELECT t.id, t.device_id, t.ticket_status_id, t.priority_id, t.description, t.assigned_to, t.client_id, t.created_at, t.updated_at, u.email 
+            SELECT t.id, t.device_id, t.ticket_status_id, t.priority_id, t.description, t.assigned_to, t.client_id, t.created_at, t.updated_at, u.email, d.device_type_id 
             FROM tickets t 
             LEFT JOIN users u ON t.assigned_to = u.id
+            LEFT JOIN devices d ON t.device_id = d.id
             ORDER BY t.created_at DESC
         ";
         $stmt = $pdo->prepare($query);

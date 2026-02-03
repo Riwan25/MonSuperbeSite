@@ -10,9 +10,10 @@ class Ticket {
     private ?int $assignedTo;
     private int $clientId;
     private ?string $assignedUserEmail;
+    private ?int $deviceTypeId;
 
 
-    public function __construct($deviceId, $ticketStatusId, $priorityId, $description, $clientId, ?int $assignedTo = null, ?int $id = null, ?DateTime $createdAt = null, ?DateTime $updatedAt = null, ?string $assignedUserEmail = null) {
+    public function __construct($deviceId, $ticketStatusId, $priorityId, $description, $clientId, ?int $assignedTo = null, ?int $id = null, ?DateTime $createdAt = null, ?DateTime $updatedAt = null, ?string $assignedUserEmail = null, ?int $deviceTypeId = null) {
         $this->id = $id;
         $this->deviceId = $deviceId;
         $this->ticketStatusId = $ticketStatusId;
@@ -23,7 +24,7 @@ class Ticket {
         $this->assignedTo = $assignedTo;
         $this->clientId = $clientId;
         $this->assignedUserEmail = $assignedUserEmail;
-        
+        $this->deviceTypeId = $deviceTypeId;
     }
 
     public function getId(){
@@ -92,6 +93,14 @@ class Ticket {
 
     public function setClientId(int $clientId){
         $this->clientId = $clientId;
+    }
+
+    public function getDeviceTypeId(){
+        return $this->deviceTypeId;
+    }
+
+    public function setDeviceTypeId(?int $deviceTypeId){
+        $this->deviceTypeId = $deviceTypeId;
     }
 
 }

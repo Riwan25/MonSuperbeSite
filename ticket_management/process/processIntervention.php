@@ -4,6 +4,7 @@ require_once(__DIR__ . "/../controllers/InterventionController.php");
 require_once(__DIR__ . "/../controllers/TicketController.php");
 require_once(__DIR__ . "/../controllers/StatusController.php");
 require_once(__DIR__ . "/../controllers/CommentController.php");
+require_once(__DIR__ . "/../controllers/UserController.php");
 
 // Get ticket ID from URL
 $ticketId = isset($_GET['ticket_id']) ? intval($_GET['ticket_id']) : 0;
@@ -62,6 +63,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($success) {
                     // Update ticket status
                     TicketController::updateStatus($ticketId, $statusId);
+                    
+                    // If ticket is closed (status_id = 5), increment user's closed tickets counter
+                    if ($statusId === 5) {
+                        UserController::incrementTicketsClosed($userId);
+                    }
                     
                     // Create comment if provided
                     if (!empty($comment)) {

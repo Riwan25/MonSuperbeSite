@@ -11,7 +11,8 @@ class UserController {
             $data['leader_id'],
             $data['id'],
             $data['role_name'],
-            $data['password']
+            $data['password'],
+            $data['nb_tickets_closed']
         );
     }
 
@@ -24,7 +25,9 @@ class UserController {
                 $userData['role_id'],
                 $userData['leader_id'],
                 $userData['id'],
-                $userData['role_name']
+                $userData['role_name'],
+                null,
+                $userData['nb_tickets_closed']
             );
         }
         return $users;
@@ -77,7 +80,8 @@ class UserController {
             $data['leader_id'],
             $data['id'],
             $data['role_name'],
-            $data['password']
+            $data['password'],
+            $data['nb_tickets_closed']
         );
     }
 
@@ -119,7 +123,9 @@ class UserController {
                 $userData['role_id'],
                 $userData['leader_id'],
                 $userData['id'],
-                $userData['role_name']
+                $userData['role_name'],
+                null,
+                $userData['nb_tickets_closed'] ?? 0
             );
         }
         return $users;
@@ -134,5 +140,9 @@ class UserController {
         }
 
         return true;
+    }
+
+    public static function incrementTicketsClosed(int $userId) {
+        return UserDAO::incrementTicketsClosed($userId);
     }
 }

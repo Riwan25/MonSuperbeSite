@@ -15,7 +15,9 @@ class TicketController {
                 $ticket['assigned_to'],
                 $ticket['id'],
                 new DateTime($ticket['created_at']),
-                new DateTime($ticket['updated_at'])
+                new DateTime($ticket['updated_at']),
+                null,
+                $ticket['device_type_id'] ?? null
             );
         }
         return $tickets;
@@ -35,7 +37,8 @@ class TicketController {
                 $ticket['id'],
                 new DateTime($ticket['created_at']),
                 new DateTime($ticket['updated_at']),
-                $ticket['email']
+                $ticket['email'],
+                $ticket['device_type_id'] ?? null
             );
         }
         return $tickets;
@@ -54,7 +57,8 @@ class TicketController {
                 $data['id'],
                 new DateTime($data['created_at']),
                 new DateTime($data['updated_at']),
-                $data['email']
+                $data['email'],
+                $data['device_type_id'] ?? null
             );
         }
         return null;
@@ -77,7 +81,9 @@ class TicketController {
                 $ticket['assigned_to'],
                 $ticket['id'],
                 new DateTime($ticket['created_at']),
-                new DateTime($ticket['updated_at'])
+                new DateTime($ticket['updated_at']),
+                null,
+                $ticket['device_type_id'] ?? null
             );
         }
         return $tickets;
@@ -97,7 +103,8 @@ class TicketController {
                 $ticket['id'],
                 new DateTime($ticket['created_at']),
                 new DateTime($ticket['updated_at']),
-                $ticket['email']
+                $ticket['email'],
+                $ticket['device_type_id'] ?? null
             );
         }
         return $tickets;
@@ -116,7 +123,9 @@ class TicketController {
                 $ticket['assigned_to'],
                 $ticket['id'],
                 new DateTime($ticket['created_at']),
-                new DateTime($ticket['updated_at'])
+                new DateTime($ticket['updated_at']),
+                null,
+                $ticket['device_type_id'] ?? null
             );
         }
         return $tickets;
@@ -144,7 +153,8 @@ class TicketController {
                 $ticket['id'],
                 new DateTime($ticket['created_at']),
                 new DateTime($ticket['updated_at']),
-                $ticket['email']
+                $ticket['email'],
+                $ticket['device_type_id'] ?? null
             );
         }
         return $tickets;

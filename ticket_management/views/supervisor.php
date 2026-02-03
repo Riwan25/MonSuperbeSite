@@ -93,7 +93,7 @@ require_once __DIR__ .'/../process/processSupervisor.php';
                             <span class="mobile-healper">
                                 Device :
                             </span>
-                            <?=getDeviceTypeName($ticket->getDeviceId())?>
+                            <?=getDeviceTypeName($ticket->getDeviceTypeId())?>
                         </div>
                         <div class="ticket-date">
                             <span class="mobile-healper">
