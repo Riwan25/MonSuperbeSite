@@ -5,7 +5,6 @@ require_once(__DIR__ . "/../models/Ticket.php");
 require_once(__DIR__ . "/utils.php");
 
 
-// Detect which page is calling this script
 $isTeamLeaderPage = isset($isTeamLeaderView) && $isTeamLeaderView === true;
 
 // Pagination settings
