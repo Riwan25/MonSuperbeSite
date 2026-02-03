@@ -11,9 +11,22 @@ require_once __DIR__ .'/../process/processTicket.php';
     <title>Ticket #<?php echo $ticket->getId(); ?></title>
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/ticket.css">
+    <link rel="stylesheet" href="styles/supervisor.css">
 </head>
 <body class="body-image">
     <?php include 'components/navbar.php'; ?>
+
+    <?php if (isset($_SESSION['success'])): ?>
+        <div class="alert alert-success">
+            <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($_SESSION['error'])): ?>
+        <div class="alert alert-error">
+            <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
+        </div>
+    <?php endif; ?>
 
     <div class="tickets-container">
 
@@ -23,6 +36,10 @@ require_once __DIR__ .'/../process/processTicket.php';
                 <h2>Ticket #<?php echo $ticket->getId(); ?></h2>
                 <?php if (isset($_SESSION['role_name']) && $_SESSION['role_name'] === 'Supervisor'): ?>
                     <div class="header-actions">
+                        <button class="header-btn btn-assign" onclick="openAssignModal(<?php echo $ticket->getId(); ?>)">
+                            <i class="fa-solid fa-user-plus"></i>
+                            <?php echo $ticket->getAssignedTo() ? 'Reassign' : 'Assign'; ?>
+                        </button>
                         <a href="updateTicket.php?id=<?php echo $ticket->getId(); ?>" class="header-btn btn-update">
                             <i class="fa-solid fa-pen-to-square"></i>
                             Update Ticket
@@ -102,6 +119,101 @@ require_once __DIR__ .'/../process/processTicket.php';
             <a href="intervention.php?ticket_id=<?php echo $ticket->getId(); ?>" class="btn-intervention">Add Intervention</a>
         </div>
     </div>
+
+    <?php if (isset($_SESSION['role_name']) && $_SESSION['role_name'] === 'Supervisor'): ?>
+    <!-- Assign User Modal -->
+    <div class="modal-overlay" id="assignModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><?php echo $ticket->getAssignedTo() ? 'Reassign' : 'Assign'; ?> Ticket #<?php echo $ticket->getId(); ?></h3>
+                <button class="modal-close" onclick="closeAssignModal()">&times;</button>
+            </div>
+            <form method="POST" action="ticket.php?id=<?php echo $ticket->getId(); ?>">
+                <input type="hidden" name="action" value="assign_ticket">
+                <div class="modal-body">
+                    <label for="userSearch">Search by Email:</label>
+                    <input type="text" id="userSearch" class="search-input" placeholder="Type to search users..." autocomplete="off">
+                    <label for="userSelect" style="margin-top: 15px;">Select User to Assign:</label>
+                    <select name="user_id" id="userSelect" required>
+                        <option value="">-- Select a user --</option>
+                        <?php foreach ($allUsers as $user): ?>
+                            <option value="<?php echo $user->getId(); ?>" 
+                                    data-email="<?php echo htmlspecialchars(strtolower($user->getEmail())); ?>"
+                                    <?php echo ($ticket->getAssignedTo() == $user->getId()) ? 'selected' : ''; ?>>
+                                <?php echo htmlspecialchars($user->getEmail()); ?> 
+                                (<?php echo htmlspecialchars($user->getRoleName()); ?>)
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                    <div id="noResults" class="no-results" style="display: none;">No users found matching your search.</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="modal-btn modal-btn-cancel" onclick="closeAssignModal()">Cancel</button>
+                    <button type="submit" class="modal-btn modal-btn-confirm"><?php echo $ticket->getAssignedTo() ? 'Reassign' : 'Assign'; ?></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openAssignModal(ticketId) {
+            document.getElementById('assignModal').classList.add('active');
+            document.getElementById('userSearch').focus();
+        }
+
+        function closeAssignModal() {
+            document.getElementById('assignModal').classList.remove('active');
+            document.getElementById('userSearch').value = '';
+            filterUsers('');
+        }
+
+        function filterUsers(searchTerm) {
+            const select = document.getElementById('userSelect');
+            const options = select.querySelectorAll('option');
+            const noResults = document.getElementById('noResults');
+            let hasVisibleOptions = false;
+            
+            searchTerm = searchTerm.toLowerCase().trim();
+            
+            options.forEach((option, index) => {
+                if (index === 0) {
+                    option.style.display = '';
+                    return;
+                }
+                
+                const email = option.getAttribute('data-email') || '';
+                if (searchTerm === '' || email.includes(searchTerm)) {
+                    option.style.display = '';
+                    hasVisibleOptions = true;
+                } else {
+                    option.style.display = 'none';
+                }
+            });
+            
+            noResults.style.display = hasVisibleOptions || searchTerm === '' ? 'none' : 'block';
+            
+            if (select.selectedOptions[0] && select.selectedOptions[0].style.display === 'none') {
+                select.value = '';
+            }
+        }
+
+        document.getElementById('userSearch').addEventListener('input', function(e) {
+            filterUsers(e.target.value);
+        });
+
+        document.getElementById('assignModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeAssignModal();
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeAssignModal();
+            }
+        });
+    </script>
+    <?php endif; ?>
     
 </body>
 </html>

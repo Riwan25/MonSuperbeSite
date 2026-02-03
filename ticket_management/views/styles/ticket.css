@@ -56,6 +56,18 @@
   transform: translateY(-2px);
 }
 
+.ticket-card-header .header-btn.btn-assign {
+  background-color: #0267c1;
+  color: white;
+  border: none;
+}
+
+.ticket-card-header .header-btn.btn-assign:hover {
+  background-color: #025aa8;
+  transform: translateY(-2px);
+  cursor: pointer;
+}
+
 .ticket-card-header h2 {
   margin: 0;
   color: #333;
