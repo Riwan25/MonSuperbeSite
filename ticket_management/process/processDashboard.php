@@ -2,58 +2,7 @@
 
 require_once(__DIR__ . "/../controllers/TicketController.php");
 require_once(__DIR__ . "/../models/Ticket.php");
-require_once(__DIR__ . "/../controllers/DeviceTypeController.php");
-require_once(__DIR__ . "/../controllers/PriorityController.php");
-require_once(__DIR__ . "/../controllers/StatusController.php");
-require_once(__DIR__ . "/../controllers/UserController.php");
-
-$deviceTypes = DeviceTypeController::getDeviceTypes();
-
-
-$priorities = PriorityController::getPriorities();
-
-
-$statuses = StatusController::getStatuses();
-
-function getPriorityName($priorityId) {
-    global $priorities;
-    foreach ($priorities as $priority) {
-        if ($priority->getId() == $priorityId) {
-            return $priority->getName();
-        }
-    }
-    return "Unknown";
-}
-
-function getPriorityValue($priorityId) {
-    global $priorities;
-    foreach ($priorities as $priority) {
-        if ($priority->getId() == $priorityId) {
-            return $priority->getValue();
-        }
-    }
-    return 0;
-}
-
-function getDeviceTypeName($deviceTypeId) {
-    global $deviceTypes;
-    foreach ($deviceTypes as $type) {
-        if ($type->getId() == $deviceTypeId) {
-            return $type->getName();
-        }
-    }
-    return "Unknown";
-}
-
-function getStatusName($statusId) {
-    global $statuses;
-    foreach ($statuses as $status) {
-        if ($status->getId() == $statusId) {
-            return $status->getName();
-        }
-    }
-    return "Unknown";
-}
+require_once(__DIR__ . "/utils.php");
 
 
 // Detect which page is calling this script
@@ -86,22 +35,3 @@ usort($tickets, function ($a, $b) {
 
     return $priorityB <=> $priorityA; // descending order
 });
-
-
-
-
-
-// Get all users for team leader view (to display assigned user email)
-$users = UserController::getUsers();
-function getUserEmail($userId) {
-    global $users;
-    if ($userId === null) {
-        return "Unassigned";
-    }
-    foreach ($users as $user) {
-        if ($user->getId() == $userId) {
-            return $user->getEmail();
-        }
-    }
-    return "Unknown";
-}

@@ -67,7 +67,7 @@ require_once __DIR__ .'/../process/processDashboard.php';
                         </div>
                         <div class="ticket-assigned">
                           <span class="email-badge">
-                            <?=getUserEmail($ticket->getAssignedTo())?>
+                            <?=$ticket->getAssignedUserEmail()?>
                           </span>
                         </div>
                     </div>

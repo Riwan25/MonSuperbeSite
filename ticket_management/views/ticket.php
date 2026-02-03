@@ -42,7 +42,7 @@ require_once __DIR__ .'/../process/processTicket.php';
                     </div>
                     <div class="ticket-info-item">
                         <span class="ticket-info-label">Assigned To</span>
-                        <span class="ticket-info-value"><?php echo getUserEmail($ticket->getAssignedTo()); ?></span>
+                        <span class="ticket-info-value"><?php echo $ticket->getAssignedUserEmail(); ?></span>
                     </div>
                     <div class="ticket-info-item">
                         <span class="ticket-info-label">Created At</span>

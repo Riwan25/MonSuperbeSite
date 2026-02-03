@@ -2,10 +2,7 @@
 
 require_once(__DIR__ . "/../controllers/TicketController.php");
 require_once(__DIR__ . "/../controllers/CommentController.php");
-require_once(__DIR__ . "/../controllers/DeviceTypeController.php");
-require_once(__DIR__ . "/../controllers/PriorityController.php");
-require_once(__DIR__ . "/../controllers/StatusController.php");
-require_once(__DIR__ . "/../controllers/UserController.php");
+require_once(__DIR__ . "/utils.php");
 
 // Get ticket ID from URL
 $ticketId = isset($_GET['id']) ? intval($_GET['id']) : 0;
@@ -26,62 +23,3 @@ if (!$ticket) {
 // Get comments for this ticket
 $comments = CommentController::getCommentsByTicketId($ticketId);
 
-// Get lookup data
-$deviceTypes = DeviceTypeController::getDeviceTypes();
-$priorities = PriorityController::getPriorities();
-$statuses = StatusController::getStatuses();
-$users = UserController::getUsers();
-
-function getPriorityName($priorityId) {
-    global $priorities;
-    foreach ($priorities as $priority) {
-        if ($priority->getId() == $priorityId) {
-            return $priority->getName();
-        }
-    }
-    return "Unknown";
-}
-
-// TODO mettre les function comme ca dans  un utlis ou qqh comme ca 
-function getPriorityValue($priorityId) {
-    global $priorities;
-    foreach ($priorities as $priority) {
-        if ($priority->getId() == $priorityId) {
-            return $priority->getValue();
-        }
-    }
-    return 0;
-}
-
-function getDeviceTypeName($deviceTypeId) {
-    global $deviceTypes;
-    foreach ($deviceTypes as $type) {
-        if ($type->getId() == $deviceTypeId) {
-            return $type->getName();
-        }
-    }
-    return "Unknown";
-}
-
-function getStatusName($statusId) {
-    global $statuses;
-    foreach ($statuses as $status) {
-        if ($status->getId() == $statusId) {
-            return $status->getName();
-        }
-    }
-    return "Unknown";
-}
-
-function getUserEmail($userId) {
-    global $users;
-    if ($userId === null) {
-        return "Unassigned";
-    }
-    foreach ($users as $user) {
-        if ($user->getId() == $userId) {
-            return $user->getEmail();
-        }
-    }
-    return "Unknown";
-}

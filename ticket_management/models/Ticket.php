@@ -9,9 +9,10 @@ class Ticket {
     private ?DateTime $updatedAt;
     private ?int $assignedTo;
     private int $clientId;
+    private ?string $assignedUserEmail;
 
 
-    public function __construct($deviceId, $ticketStatusId, $priorityId, $description, $clientId, ?int $assignedTo = null, ?int $id = null, ?DateTime $createdAt = null, ?DateTime $updatedAt = null) { 
+    public function __construct($deviceId, $ticketStatusId, $priorityId, $description, $clientId, ?int $assignedTo = null, ?int $id = null, ?DateTime $createdAt = null, ?DateTime $updatedAt = null, ?string $assignedUserEmail = null) {
         $this->id = $id;
         $this->deviceId = $deviceId;
         $this->ticketStatusId = $ticketStatusId;
@@ -21,6 +22,8 @@ class Ticket {
         $this->updatedAt = $updatedAt;
         $this->assignedTo = $assignedTo;
         $this->clientId = $clientId;
+        $this->assignedUserEmail = $assignedUserEmail;
+        
     }
 
     public function getId(){
@@ -57,6 +60,10 @@ class Ticket {
 
     public function getClientId(){
         return $this->clientId;
+    }
+
+    public function getAssignedUserEmail(){
+        return $this->assignedUserEmail;
     }
 
     public function setAssignedTo(?int $assignedTo){

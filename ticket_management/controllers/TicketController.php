@@ -34,7 +34,8 @@ class TicketController {
                 $ticket['assigned_to'],
                 $ticket['id'],
                 new DateTime($ticket['created_at']),
-                new DateTime($ticket['updated_at'])
+                new DateTime($ticket['updated_at']),
+                $ticket['email']
             );
         }
         return $tickets;
@@ -52,7 +53,8 @@ class TicketController {
                 $data['assigned_to'],
                 $data['id'],
                 new DateTime($data['created_at']),
-                new DateTime($data['updated_at'])
+                new DateTime($data['updated_at']),
+                $data['email']
             );
         }
         return null;
