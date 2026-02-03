@@ -1,6 +1,6 @@
 <?php 
 require_once __DIR__ .'/../process/requireAuth.php';
-requireAuth();
+requireAuth(['Team Leader', 'Supervisor']);
 $isTeamLeaderView = true;
 require_once __DIR__ .'/../process/processDashboard.php';
 ?>

@@ -1,0 +1,325 @@
+/* User Management Page Styles */
+
+.tickets-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ticket-header-user,
+.ticket-item-user {
+  grid-template-columns: 60px 1fr 150px 1fr 120px;
+}
+
+.user-email {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #333;
+  font-weight: 500;
+}
+
+.user-email i {
+  color: #666;
+}
+
+.user-leader {
+  color: #555;
+  font-size: 13px;
+}
+
+/* Role badges */
+.role-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.role-supervisor {
+  background: #6366f1;
+  color: white;
+}
+
+.role-team_leader,
+.role-team-leader {
+  background: #f59e0b;
+  color: white;
+}
+
+.role-technician {
+  background: #3b82f6;
+  color: white;
+}
+
+.role-user {
+  background: #10b981;
+  color: white;
+}
+
+/* Action buttons */
+.user-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.action-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.action-btn i {
+  font-size: 14px;
+}
+
+.btn-edit {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.btn-edit:hover {
+  background: #1976d2;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+}
+
+.btn-delete {
+  background: #ffebee;
+  color: #d32f2f;
+}
+
+.btn-delete:hover:not(.disabled) {
+  background: #d32f2f;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(211, 47, 47, 0.3);
+}
+
+.btn-delete.disabled {
+  background: #f5f5f5;
+  color: #bdbdbd;
+  cursor: not-allowed;
+}
+
+/* Create User button */
+.btn-create-user {
+  background: #28a745;
+  color: white;
+  border-radius: 10px;
+  padding: 10px 20px;
+  border: none;
+}
+
+.btn-create-user:hover {
+  background: #218838;
+  transform: translateY(-2px);
+  cursor: pointer;
+}
+
+/* Assign button (like in supervisor) */
+.assign-btn {
+  padding: 6px 12px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background 0.3s ease;
+}
+
+.assign-btn:hover {
+  background: #218838;
+}
+
+/* Email badge */
+.email-badge {
+  font-size: 13px;
+  color: white;
+}
+
+/* Assign info text */
+.assign-info {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.assign-info strong {
+  color: #007bff;
+}
+
+/* Modal styles */
+.modal-large {
+  max-width: 500px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.required {
+  color: #d32f2f;
+}
+
+/* Delete modal styles */
+.delete-warning {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.delete-email {
+  font-size: 18px;
+  font-weight: 600;
+  color: #d32f2f;
+  padding: 12px;
+  background: #ffebee;
+  border-radius: 6px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.delete-note {
+  font-size: 13px;
+  color: #666;
+  font-style: italic;
+}
+
+.modal-btn-delete {
+  background: #d32f2f;
+  color: white;
+}
+
+.modal-btn-delete:hover {
+  background: #b71c1c;
+}
+
+/* Modal header icons */
+.modal-header h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modal-header h3 i {
+  font-size: 18px;
+}
+
+.modal-header h3 .fa-user-plus {
+  color: #28a745;
+}
+
+.modal-header h3 .fa-user-pen {
+  color: #1976d2;
+}
+
+.modal-header h3 .fa-triangle-exclamation {
+  color: #ff9800;
+}
+
+.modal-header h3 .fa-user-tie {
+  color: #28a745;
+}
+
+/* Responsive styles */
+@media (max-width: 900px) {
+  .ticket-header-user {
+    display: none;
+  }
+
+  .ticket-item-user {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px;
+  }
+
+  .ticket-item-user > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .ticket-item-user > div::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #666;
+  }
+
+  .ticket-id::before {
+    content: 'ID:';
+  }
+
+  .user-email::before {
+    content: 'Email:';
+  }
+
+  .user-leader::before {
+    content: 'Leader:';
+  }
+
+  .user-actions {
+    justify-content: flex-end;
+  }
+
+  .user-actions::before {
+    content: 'Actions:';
+    font-weight: 600;
+    color: #666;
+  }
+}
+
+@media (max-width: 600px) {
+  .header-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .header-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .modal-content {
+    margin: 16px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+}

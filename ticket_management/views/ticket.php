@@ -34,8 +34,11 @@ require_once __DIR__ .'/../process/processTicket.php';
         <div class="ticket-card">
             <div class="ticket-card-header">
                 <h2>Ticket #<?php echo $ticket->getId(); ?></h2>
-                <?php if (isset($_SESSION['role_name']) && $_SESSION['role_name'] === 'Supervisor'): ?>
                     <div class="header-actions">
+                        <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] === $ticket->getAssignedTo()): ?>
+                            <a href="intervention.php?ticket_id=<?php echo $ticket->getId(); ?>" class="btn-intervention">Add Intervention</a>
+                        <?php endif; ?>
+                        <?php if (isset($_SESSION['role_name']) && $_SESSION['role_name'] === 'Supervisor'): ?>
                         <button class="header-btn btn-assign" onclick="openAssignModal(<?php echo $ticket->getId(); ?>)">
                             <i class="fa-solid fa-user-plus"></i>
                             <?php echo $ticket->getAssignedTo() ? 'Reassign' : 'Assign'; ?>
@@ -44,8 +47,8 @@ require_once __DIR__ .'/../process/processTicket.php';
                             <i class="fa-solid fa-pen-to-square"></i>
                             Update Ticket
                         </a>
-                    </div>
-                <?php endif; ?>
+                    <?php endif; ?>
+                </div>
             </div>
             <div class="ticket-card-body">
                 <div class="ticket-info-grid">
@@ -113,10 +116,6 @@ require_once __DIR__ .'/../process/processTicket.php';
                     </div>
                 <?php endif; ?>
             </div>
-        </div>
-
-        <div class="ticket-actions">
-            <a href="intervention.php?ticket_id=<?php echo $ticket->getId(); ?>" class="btn-intervention">Add Intervention</a>
         </div>
     </div>
 

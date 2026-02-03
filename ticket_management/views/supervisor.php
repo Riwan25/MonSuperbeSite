@@ -1,6 +1,6 @@
 <?php 
 require_once __DIR__ .'/../process/requireAuth.php';
-requireAuth();
+requireAuth(['Supervisor']);
 require_once __DIR__ .'/../process/processSupervisor.php';
 ?>
 

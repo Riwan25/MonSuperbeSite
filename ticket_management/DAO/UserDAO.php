@@ -48,4 +48,62 @@ class UserDAO {
         $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
         return $stmt->execute();
     }
+
+    public static function getUserById(int $userId) {
+        $pdo = Database::getInstance();
+        $query = "
+            SELECT u.id, u.email, u.leader_id, u.role_id, r.name AS role_name, u.password
+            FROM users u
+            JOIN roles r 
+            ON u.role_id = r.id
+            WHERE u.id = :userId
+        ";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public static function updateUser(int $userId, string $email, int $roleId, ?int $leaderId, ?string $password = null) {
+        $pdo = Database::getInstance();
+        
+        if ($password !== null && $password !== '') {
+            $query = "UPDATE users SET email = :email, role_id = :role_id, leader_id = :leader_id, password = :password WHERE id = :userId";
+            $stmt = $pdo->prepare($query);
+            $stmt->bindValue(':password', password_hash($password, PASSWORD_BCRYPT), PDO::PARAM_STR);
+        } else {
+            $query = "UPDATE users SET email = :email, role_id = :role_id, leader_id = :leader_id WHERE id = :userId";
+            $stmt = $pdo->prepare($query);
+        }
+        
+        $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+        $stmt->bindValue(':role_id', $roleId, PDO::PARAM_INT);
+        $stmt->bindValue(':leader_id', $leaderId, PDO::PARAM_INT);
+        $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+        
+        return $stmt->execute();
+    }
+
+    public static function getTeamLeaders() {
+        $pdo = Database::getInstance();
+        $query = "
+            SELECT u.id, u.email, u.leader_id, u.role_id, r.name AS role_name
+            FROM users u
+            JOIN roles r ON u.role_id = r.id
+            WHERE r.name = 'team_leader' OR r.name = 'supervisor'
+            ORDER BY u.email
+        ";
+        $stmt = $pdo->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function assignLeader(int $userId, int $leaderId) {
+        $pdo = Database::getInstance();
+        $query = "UPDATE users SET leader_id = :leader_id WHERE id = :userId";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindValue(':leader_id', $leaderId, PDO::PARAM_INT);
+        $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
 }
