@@ -101,11 +101,15 @@ CREATE TABLE if not exists `interventions` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `started_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ended_at` timestamp NULL DEFAULT NULL,
+  `start_status_id` int(10) unsigned DEFAULT NULL,
+  `end_status_id` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `ticket_id` (`ticket_id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `interventions_ibfk_1` FOREIGN KEY (`ticket_id`) REFERENCES `tickets` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `interventions_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
+  CONSTRAINT `interventions_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `interventions_ibfk_3` FOREIGN KEY (`start_status-id`) REFERENCES `ticket_statuses` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `interventions_ibfk_4` FOREIGN KEY (`end_status_id`) REFERENCES `ticket_statuses` (`id`) ON DELETE SET NULL
 );
 
 

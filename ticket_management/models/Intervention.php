@@ -6,14 +6,18 @@ class Intervention {
     private DateTime $startedAt;
     private DateTime $endedAt;
     private ?DateTime $createdAt;
+    private ?int $startStatusId;
+    private ?int $endStatusId;
 
 
-    public function __construct(int $ticketId, int $userId, DateTime $startedAt, DateTime $endedAt, ?DateTime $createdAt = null, ?int $id = null) { 
+    public function __construct(int $ticketId, int $userId, DateTime $startedAt, DateTime $endedAt, ?int $startStatusId = null, ?int $endStatusId = null, ?DateTime $createdAt = null, ?int $id = null) { 
         $this->id = $id;
         $this->ticketId = $ticketId;
         $this->userId = $userId;
         $this->startedAt = $startedAt;
         $this->endedAt = $endedAt;
+        $this->startStatusId = $startStatusId;
+        $this->endStatusId = $endStatusId;
         $this->createdAt = $createdAt;
     }
 
@@ -35,6 +39,12 @@ class Intervention {
     public function getCreatedAt(){
         return $this->createdAt;
     }
+    public function getStartStatusId(){
+        return $this->startStatusId;
+    }
+    public function getEndStatusId(){
+        return $this->endStatusId;
+    }
 
     public function setId(int $id){
         $this->id = $id;
@@ -50,6 +60,12 @@ class Intervention {
     }
     public function setEndedAt(DateTime $endedAt){
         $this->endedAt = $endedAt;
+    }
+    public function setStartStatusId(?int $startStatusId){
+        $this->startStatusId = $startStatusId;
+    }
+    public function setEndStatusId(?int $endStatusId){
+        $this->endStatusId = $endStatusId;
     }
 
 }

@@ -4,8 +4,8 @@ require_once __DIR__ . '/../DAO/InterventionDAO.php';
 
 class InterventionController {
     
-    public static function create(int $ticketId, int $userId, DateTime $startedAt, DateTime $endedAt): bool {
-        $intervention = new Intervention($ticketId, $userId, $startedAt, $endedAt);
+    public static function create(int $ticketId, int $userId, DateTime $startedAt, DateTime $endedAt, ?int $startStatusId = null, ?int $endStatusId = null): bool {
+        $intervention = new Intervention($ticketId, $userId, $startedAt, $endedAt, $startStatusId, $endStatusId);
         return InterventionDAO::create($intervention);
     }
 
@@ -18,6 +18,8 @@ class InterventionController {
                 $intervention['user_id'],
                 new DateTime($intervention['started_at']),
                 new DateTime($intervention['ended_at']),
+                $intervention['start_status_id'] ?? null,
+                $intervention['end_status_id'] ?? null,
                 new DateTime($intervention['created_at']),
                 $intervention['id']
             );
@@ -33,6 +35,8 @@ class InterventionController {
                 $data['user_id'],
                 new DateTime($data['started_at']),
                 new DateTime($data['ended_at']),
+                $data['start_status_id'] ?? null,
+                $data['end_status_id'] ?? null,
                 new DateTime($data['created_at']),
                 $data['id']
             );
@@ -49,6 +53,8 @@ class InterventionController {
                 $intervention['user_id'],
                 new DateTime($intervention['started_at']),
                 new DateTime($intervention['ended_at']),
+                $intervention['start_status_id'] ?? null,
+                $intervention['end_status_id'] ?? null,
                 new DateTime($intervention['created_at']),
                 $intervention['id']
             );

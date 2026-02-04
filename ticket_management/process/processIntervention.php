@@ -57,8 +57,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Get current user ID from session
                 $userId = $_SESSION['user_id'];
                 
-                // Create intervention
-                $success = InterventionController::create($ticketId, $userId, $startDateTime, $endDateTime);
+                // Get the current ticket status (this will be the start_status_id)
+                $startStatusId = $ticket->getTicketStatusId();
+                
+                // The selected status will be the end_status_id
+                $endStatusId = $statusId;
+                
+                // Create intervention with start and end status
+                $success = InterventionController::create($ticketId, $userId, $startDateTime, $endDateTime, $startStatusId, $endStatusId);
                 
                 if ($success) {
                     // Update ticket status
