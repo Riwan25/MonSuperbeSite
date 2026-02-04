@@ -24,7 +24,7 @@ require_once __DIR__ .'/../process/processDashboard.php';
         <div class="tickets-list">
             <?php if (count($tickets) > 0): ?>
                 <div class="ticket-header ticket-header-leader">
-                    <div>ID</div>
+                    <div>N°</div>
                     <div>Priority</div>
                     <div>Status</div>
                     <div>Device type</div>
