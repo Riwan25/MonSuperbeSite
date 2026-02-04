@@ -12,13 +12,27 @@ require_once __DIR__ .'/../process/processDashboard.php';
     <title>Team Leader - Ticket Management</title>
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/dashboard.css">
+    <link rel="stylesheet" href="styles/supervisor.css">
 </head>
 <body class="body-image">
     <?php include 'components/navbar.php'; ?>
 
     <div class="tickets-container tickets-container-wide">
         <div class="tickets-header">
-            <h1>Team Tickets (<?php echo $totalTickets; ?>)</h1>
+            <h1>Team Tickets</h1>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs-container">
+            <a href="?tab=pending" class="tab-btn <?php echo $currentTab === 'pending' ? 'active' : ''; ?>">
+                Pending <span class="tab-count"><?php echo $pendingCount; ?></span>
+            </a>
+            <a href="?tab=closed" class="tab-btn <?php echo $currentTab === 'closed' ? 'active' : ''; ?>">
+                Closed <span class="tab-count"><?php echo $closedCount; ?></span>
+            </a>
+            <a href="?tab=other" class="tab-btn <?php echo $currentTab === 'other' ? 'active' : ''; ?>">
+                Other <span class="tab-count"><?php echo $otherCount; ?></span>
+            </a>
         </div>
 
         <div class="tickets-list">
@@ -66,15 +80,29 @@ require_once __DIR__ .'/../process/processDashboard.php';
                             <?=$ticket->getCreatedAt()->format('Y-m-d H:i:s')?>
                         </div>
                         <div class="ticket-assigned">
-                          <span class="email-badge">
-                            <?=$ticket->getAssignedUserEmail()?>
-                          </span>
+                            <span class="email-badge">
+                                <?=$ticket->getAssignedUserEmail() ?? '<span class="empty-cell">Not assigned</span>'?>
+                            </span>
                         </div>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
                 <div class="no-tickets">
-                    <p>No tickets in your team yet.</p>
+                    <p>
+                        <?php 
+                        switch($currentTab) {
+                            case 'pending':
+                                echo 'No pending tickets in your team.';
+                                break;
+                            case 'closed':
+                                echo 'No closed tickets from your team.';
+                                break;
+                            case 'other':
+                                echo 'No other tickets with interventions from your team.';
+                                break;
+                        }
+                        ?>
+                    </p>
                 </div>
             <?php endif; ?>
         </div>
@@ -82,8 +110,8 @@ require_once __DIR__ .'/../process/processDashboard.php';
         <?php if ($totalPages > 1): ?>
             <div class="pagination">
                 <?php if ($currentPage > 1): ?>
-                    <a href="?page=1">&laquo; First</a>
-                    <a href="?page=<?php echo $currentPage - 1; ?>">&lsaquo; Prev</a>
+                    <a href="?tab=<?php echo $currentTab; ?>&page=1">&laquo; First</a>
+                    <a href="?tab=<?php echo $currentTab; ?>&page=<?php echo $currentPage - 1; ?>">&lsaquo; Prev</a>
                 <?php else: ?>
                     <span class="disabled">&laquo; First</span>
                     <span class="disabled">&lsaquo; Prev</span>
@@ -97,13 +125,13 @@ require_once __DIR__ .'/../process/processDashboard.php';
                     <?php if ($i == $currentPage): ?>
                         <span class="current"><?php echo $i; ?></span>
                     <?php else: ?>
-                        <a href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                        <a href="?tab=<?php echo $currentTab; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
                     <?php endif; ?>
                 <?php endfor; ?>
 
                 <?php if ($currentPage < $totalPages): ?>
-                    <a href="?page=<?php echo $currentPage + 1; ?>">Next &rsaquo;</a>
-                    <a href="?page=<?php echo $totalPages; ?>">Last &raquo;</a>
+                    <a href="?tab=<?php echo $currentTab; ?>&page=<?php echo $currentPage + 1; ?>">Next &rsaquo;</a>
+                    <a href="?tab=<?php echo $currentTab; ?>&page=<?php echo $totalPages; ?>">Last &raquo;</a>
                 <?php else: ?>
                     <span class="disabled">Next &rsaquo;</span>
                     <span class="disabled">Last &raquo;</span>

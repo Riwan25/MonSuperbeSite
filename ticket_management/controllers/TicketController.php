@@ -167,4 +167,67 @@ class TicketController {
     public static function updateTicket(int $ticketId, int $deviceId, int $priorityId, string $description, int $clientId): bool {
         return TicketDAO::updateTicket($ticketId, $deviceId, $priorityId, $description, $clientId);
     }
+
+    public static function getTicketsByLeaderIdPending(int $leaderId){
+        $data = TicketDAO::getTicketsByLeaderIdPending($leaderId);
+        $tickets = [];
+        foreach($data as $ticket){
+            $tickets[] = new Ticket(
+                $ticket['device_id'],
+                $ticket['ticket_status_id'],
+                $ticket['priority_id'],
+                $ticket['description'],
+                $ticket['client_id'],
+                $ticket['assigned_to'],
+                $ticket['id'],
+                new DateTime($ticket['created_at']),
+                new DateTime($ticket['updated_at']),
+                $ticket['email'],
+                $ticket['device_type_id'] ?? null
+            );
+        }
+        return $tickets;
+    }
+
+    public static function getTicketsByLeaderIdClosed(int $leaderId){
+        $data = TicketDAO::getTicketsByLeaderIdClosed($leaderId);
+        $tickets = [];
+        foreach($data as $ticket){
+            $tickets[] = new Ticket(
+                $ticket['device_id'],
+                $ticket['ticket_status_id'],
+                $ticket['priority_id'],
+                $ticket['description'],
+                $ticket['client_id'],
+                $ticket['assigned_to'],
+                $ticket['id'],
+                new DateTime($ticket['created_at']),
+                new DateTime($ticket['updated_at']),
+                null,
+                $ticket['device_type_id'] ?? null
+            );
+        }
+        return $tickets;
+    }
+
+    public static function getTicketsByLeaderIdOther(int $leaderId){
+        $data = TicketDAO::getTicketsByLeaderIdOther($leaderId);
+        $tickets = [];
+        foreach($data as $ticket){
+            $tickets[] = new Ticket(
+                $ticket['device_id'],
+                $ticket['ticket_status_id'],
+                $ticket['priority_id'],
+                $ticket['description'],
+                $ticket['client_id'],
+                $ticket['assigned_to'],
+                $ticket['id'],
+                new DateTime($ticket['created_at']),
+                new DateTime($ticket['updated_at']),
+                $ticket['email'] ?? null,
+                $ticket['device_type_id'] ?? null
+            );
+        }
+        return $tickets;
+    }
 }

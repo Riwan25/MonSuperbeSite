@@ -21,7 +21,8 @@ class InterventionController {
                 $intervention['start_status_id'] ?? null,
                 $intervention['end_status_id'] ?? null,
                 new DateTime($intervention['created_at']),
-                $intervention['id']
+                $intervention['id'],
+                $intervention['user_email'] ?? null
             );
         }
         return $interventions;

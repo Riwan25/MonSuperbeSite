@@ -117,6 +117,62 @@ require_once __DIR__ .'/../process/processTicket.php';
                 <?php endif; ?>
             </div>
         </div>
+
+        <!-- Interventions History Card (Supervisor and Team Leader only) -->
+        <?php if (isset($_SESSION['role_name']) && ($_SESSION['role_name'] === 'Supervisor' || $_SESSION['role_name'] === 'Team Leader')): ?>
+        <div class="ticket-card">
+            <div class="ticket-card-header">
+                <h2>Intervention History (<?php echo count($interventions); ?>)</h2>
+            </div>
+            <div class="ticket-card-body">
+                <?php if (count($interventions) > 0): ?>
+                    <div class="interventions-table-container">
+                        <table class="interventions-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Technician</th>
+                                    <th>Duration</th>
+                                    <th>Price</th>
+                                    <th>Status Change</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($interventions as $intervention): 
+                                    $startTime = $intervention->getStartedAt();
+                                    $endTime = $intervention->getEndedAt();
+                                    $interval = $startTime->diff($endTime);
+                                    $minutes = ($interval->days * 24 * 60) + ($interval->h * 60) + $interval->i;
+                                    $hours = $minutes / 60;
+                                    $price = number_format($hours * 10, 2);
+                                ?>
+                                    <tr>
+                                        <td><?php echo $startTime->format('Y-m-d H:i'); ?></td>
+                                        <td><?php echo htmlspecialchars($intervention->getUserEmail()); ?></td>
+                                        <td><?php echo $minutes; ?> min</td>
+                                        <td><?php echo $price; ?>€</td>
+                                        <td>
+                                            <span class="status-badge status-<?php echo $intervention->getStartStatusId(); ?>">
+                                                <?php echo getStatusName($intervention->getStartStatusId()); ?>
+                                            </span>
+                                            <span class="status-arrow">→</span>
+                                            <span class="status-badge status-<?php echo $intervention->getEndStatusId(); ?>">
+                                                <?php echo getStatusName($intervention->getEndStatusId()); ?>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php else: ?>
+                    <div class="no-comments">
+                        <p>No interventions recorded yet.</p>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+        <?php endif; ?>
     </div>
 
     <?php if (isset($_SESSION['role_name']) && $_SESSION['role_name'] === 'Supervisor'): ?>

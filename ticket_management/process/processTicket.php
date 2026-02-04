@@ -4,6 +4,7 @@ require_once(__DIR__ . "/../controllers/TicketController.php");
 require_once(__DIR__ . "/../controllers/CommentController.php");
 require_once(__DIR__ . "/../controllers/DeviceController.php");
 require_once(__DIR__ . "/../controllers/UserController.php");
+require_once(__DIR__ . "/../controllers/InterventionController.php");
 require_once(__DIR__ . "/utils.php");
 
 // Get ticket ID from URL
@@ -31,6 +32,12 @@ $comments = CommentController::getCommentsByTicketId($ticketId);
 $allUsers = [];
 if (isset($_SESSION['role_name']) && $_SESSION['role_name'] === 'Supervisor') {
     $allUsers = UserController::getUsers();
+}
+
+// Get interventions for this ticket (supervisor and team leader)
+$interventions = [];
+if (isset($_SESSION['role_name']) && ($_SESSION['role_name'] === 'Supervisor' || $_SESSION['role_name'] === 'Team Leader')) {
+    $interventions = InterventionController::getInterventionsByTicketId($ticketId);
 }
 
 // Handle assign ticket action

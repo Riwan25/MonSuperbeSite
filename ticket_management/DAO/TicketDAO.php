@@ -196,4 +196,74 @@ class TicketDAO {
         $stmt->bindValue(':ticket_id', $ticketId, PDO::PARAM_INT);
         return $stmt->execute();
     }
+
+    /**
+     * Get pending tickets (non-closed) assigned to users under a team leader
+     */
+    public static function getTicketsByLeaderIdPending(int $leaderId): array {
+        $pdo = Database::getInstance();
+        // Get non-closed tickets (status != 5) assigned to users with this leader
+        $query = "
+            SELECT t.id, t.device_id, t.ticket_status_id, t.priority_id, t.description, t.assigned_to, t.client_id, t.created_at, t.updated_at, u.email, d.device_type_id 
+            FROM tickets t 
+            JOIN users u ON t.assigned_to = u.id
+            JOIN users leader ON u.leader_id = leader.id
+            LEFT JOIN devices d ON t.device_id = d.id
+            WHERE leader.id = :id AND t.ticket_status_id != 5
+        ";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':id', $leaderId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Get closed tickets that have an intervention by a user under this team leader
+     */
+    public static function getTicketsByLeaderIdClosed(int $leaderId): array {
+        $pdo = Database::getInstance();
+        // Get closed tickets (status = 5) that have an intervention by a user with this leader
+        $query = "
+            SELECT DISTINCT t.id, t.device_id, t.ticket_status_id, t.priority_id, t.description, t.assigned_to, t.client_id, t.created_at, t.updated_at, d.device_type_id 
+            FROM tickets t 
+            JOIN interventions i ON t.id = i.ticket_id
+            JOIN users u ON i.user_id = u.id
+            LEFT JOIN devices d ON t.device_id = d.id
+            WHERE u.leader_id = :id AND t.ticket_status_id = 5
+        ";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':id', $leaderId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Get non-closed tickets with an intervention by a user under this team leader,
+     * but NOT currently assigned to a user with this team leader
+     */
+    public static function getTicketsByLeaderIdOther(int $leaderId): array {
+        $pdo = Database::getInstance();
+        $query = "
+            SELECT DISTINCT t.id, t.device_id, t.ticket_status_id, t.priority_id, t.description, t.assigned_to, t.client_id, t.created_at, t.updated_at, assigned_user.email, d.device_type_id 
+            FROM tickets t 
+            JOIN interventions i ON t.id = i.ticket_id
+            JOIN users intervention_user ON i.user_id = intervention_user.id
+            LEFT JOIN users assigned_user ON t.assigned_to = assigned_user.id
+            LEFT JOIN devices d ON t.device_id = d.id
+            WHERE intervention_user.leader_id = :id 
+              AND t.ticket_status_id != 5
+              AND (
+                  t.assigned_to IS NULL 
+                  OR NOT EXISTS (
+                      SELECT 1 FROM users u2 
+                      WHERE u2.id = t.assigned_to AND u2.leader_id = :id2
+                  )
+              )
+        ";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':id', $leaderId, PDO::PARAM_INT);
+        $stmt->bindParam(':id2', $leaderId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

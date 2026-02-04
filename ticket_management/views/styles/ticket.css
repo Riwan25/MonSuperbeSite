@@ -256,7 +256,6 @@
   .btn-update {
     text-align: center;
   }
-
 }
 
 @media (max-width: 480px) {
@@ -398,5 +397,62 @@
   .btn-submit,
   .btn-cancel {
     width: 100%;
+  }
+}
+/* Interventions Table Styles */
+.interventions-table-container {
+  overflow-x: auto;
+  margin-top: 10px;
+}
+
+.interventions-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  font-size: 14px;
+}
+
+.interventions-table thead {
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.interventions-table th {
+  padding: 12px 15px;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.interventions-table tbody tr {
+  border-bottom: 1px solid #e0e0e0;
+  transition: background-color 0.2s;
+}
+
+.interventions-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.interventions-table td {
+  padding: 12px 15px;
+  color: #333;
+}
+
+.interventions-table .status-arrow {
+  color: #666;
+  margin: 0 8px;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .interventions-table {
+    font-size: 12px;
+  }
+
+  .interventions-table th,
+  .interventions-table td {
+    padding: 8px 10px;
   }
 }
