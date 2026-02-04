@@ -43,7 +43,6 @@ require_once __DIR__ .'/../process/processUser.php';
         <div class="tickets-list">
             <?php if (count($users) > 0): ?>
                 <div class="ticket-header ticket-header-user">
-                    <div>ID</div>
                     <div>Email</div>
                     <div>Role</div>
                     <div>Leader</div>
@@ -52,9 +51,6 @@ require_once __DIR__ .'/../process/processUser.php';
 
                 <?php foreach ($users as $user): ?>
                     <div class="ticket-item ticket-item-user">
-                        <div class="ticket-id">
-                            #<?php echo $user->getId(); ?>
-                        </div>
                         <div class="user-email">
                             <i class="fa-solid fa-envelope"></i>
                             <?php echo htmlspecialchars($user->getEmail()); ?>

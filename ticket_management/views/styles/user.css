@@ -7,7 +7,7 @@
 
 .ticket-header-user,
 .ticket-item-user {
-  grid-template-columns: 60px 1fr 150px 1fr 120px;
+  grid-template-columns: 1fr 150px 1fr 120px;
 }
 
 .user-email {
@@ -280,10 +280,6 @@
     content: attr(data-label);
     font-weight: 600;
     color: #666;
-  }
-
-  .ticket-id::before {
-    content: 'ID:';
   }
 
   .user-email::before {
